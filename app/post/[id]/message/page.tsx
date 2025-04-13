@@ -30,7 +30,8 @@ const cx = classNames.bind(styles);
 const DEFAULT_RELATIONSHIP_OPTIONS: Relationship[] = ['지인', '친구', '가족', '동료'];
 const DEFAULT_FONT_OPTIONS: Font[] = ['Noto Sans', 'Pretendard'];
 
-const DEFAULT_PROFILE_IMAGE_URL = 'https://placehold.co/600x400';
+const DEFAULT_PROFILE_IMAGE_URL =
+  'https://learn-codeit-kr-static.s3.ap-northeast-2.amazonaws.com/sprint-proj-image/default_avatar.png';
 
 // dynamic Import editor
 const Editor = dynamic(() => import('edit-on-slate').then((mod) => mod.Editor), {
