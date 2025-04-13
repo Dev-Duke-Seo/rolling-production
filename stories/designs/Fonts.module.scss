@@ -1,0 +1,69 @@
+@import '/styles/global-styles/_font-faces.scss';
+
+.font-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10rem;
+  width: 100%;
+  text-wrap: nowrap;
+
+  text-align: left;
+}
+
+.font-28-bold {
+  @include font-28-bold;
+}
+
+.font-24-bold {
+  @include font-24-bold;
+}
+
+.font-24-regular {
+  @include font-24-regular;
+}
+
+.font-20-bold {
+  @include font-20-bold;
+}
+
+.font-20-regular {
+  @include font-20-regular;
+}
+
+.font-18-bold {
+  @include font-18-bold;
+}
+
+.font-18-regular {
+  @include font-18-regular;
+}
+
+.font-16-bold {
+  @include font-16-bold;
+}
+
+.font-16-regular {
+  @include font-16-regular;
+}
+.font-15-bold {
+  @include font-15-bold;
+}
+
+.font-15-regular {
+  @include font-15-regular;
+}
+
+.font-14-bold {
+  @include font-14-bold;
+}
+
+.font-14-regular {
+  @include font-14-regular;
+}

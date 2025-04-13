@@ -1,0 +1,29 @@
+@import "styles/global-styles/index";
+
+.badge {
+  width: fit-content;
+  display: inline-flex;
+  padding: 0 0.8rem;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  border-radius: 0.4rem;
+  @include font-14-regular;
+
+  &.beige{
+    background-color: $beige-100;
+    color: $beige-500;
+  }
+  &.blue{
+    background-color: $blue-100;
+    color: $blue-500;
+  }
+  &.purple{
+    background-color: $purple-100;
+    color: $purple-500;
+  }
+  &.green{
+    background-color: $green-100;
+    color: $green-500;
+  }
+}

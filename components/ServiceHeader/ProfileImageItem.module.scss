@@ -1,0 +1,54 @@
+@import 'styles/global-styles/index';
+
+.profile-image-item {
+  position: relative;
+  flex-shrink: 0;
+  display: inline-block;
+  cursor: pointer;
+
+  .image-container {
+    width: 2.8rem;
+    height: 2.8rem;
+    position: relative;
+    border: 1.4px solid #fff;
+    border-radius: 50%;
+
+    
+    &.selection {
+      width: 5.6rem;
+      height: 5.6rem;
+
+      @include mobile {
+        width: 4rem;
+        height: 4rem;
+      }
+    }
+
+    img {
+      overflow: hidden;
+      border-radius: 50%;
+    }
+  }
+
+  .count-box {
+    position: relative;
+
+    svg {
+      width: 2.8rem;
+      height: 2.8rem;
+      flex-shrink: 0;
+      @include mobile {
+        width: 1.8rem;
+        height: 1.8rem;
+      }
+    }
+
+    p {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      margin: 0;
+    }
+  }
+}

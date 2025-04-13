@@ -1,0 +1,59 @@
+@import '/styles/global-styles/index.scss';
+
+.carousel {
+  position: relative;
+  width: min-content;
+  .carousel-container {
+    max-width: 116rem;
+
+    @include tablet {
+      max-width: 70vh;
+    }
+    @include mobile {
+      max-width: $min-width;
+    }
+    overflow: hidden;
+    .item-list {
+      display: flex;
+      gap: 2rem;
+      transition: transform 0.3s ease-in-out;
+    }
+  }
+}
+
+.carousel-button {
+  background-color: transparent; // 버튼 배경 투명
+  border: none; // 버튼 테두리 없음
+  cursor: pointer; // 커서 포인터로 변경
+  padding: 1rem; // 버튼 패딩
+  position: absolute; // 절대 위치 설정
+  top: 50%; // 수직 중앙 정렬
+  z-index: $z-index-floating-menu;
+
+  &.left {
+    left: 0;
+    transform: translate(-50%, -50%);
+  }
+
+  &.right {
+    right: 0;
+    transform: translate(50%, -50%);
+  }
+
+  &:hover {
+    opacity: 0.7; // 호버 시 투명도 변경
+  }
+  &.is-first {
+    display: none;
+  }
+
+  &.is-last {
+    display: none;
+  }
+}
+
+.load-more {
+  width: 1rem;
+  height: 100%;
+  background-color: red;
+}

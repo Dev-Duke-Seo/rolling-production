@@ -1,0 +1,26 @@
+@import 'styles/global-styles/index';
+
+.label {
+  width: fit-content;
+  color: $gray-900;
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 4.2rem; /* 175% */
+  letter-spacing: -0.024rem;
+
+  @include mobile {
+    font-size: 1.8rem;
+    line-height: 3.2rem;
+  }
+}
+
+.with-label {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+
+  @include mobile {
+    width: 100%;
+    max-width: 32rem;
+  }
+}

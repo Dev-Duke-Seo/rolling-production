@@ -1,0 +1,31 @@
+@import 'styles/global-styles/index.scss';
+
+.emoji-item {
+  width: fit-content;
+  padding: 0.8rem 1.2rem;
+  border-radius: 3.2rem;
+
+  @include flex-center;
+  gap: 0.2rem;
+
+  background: rgba(0, 0, 0, 0.54);
+
+  &:hover {
+    background: $gray-600;
+    cursor: pointer;
+  }
+
+  .emoji {
+    font-size: 1.6rem;
+    line-height: 2.1rem; /* 131.25% */
+  }
+
+  .count {
+    color: $white;
+    @include font-16-regular;
+  }
+}
+
+.selected {
+  background: $gray-600;
+}

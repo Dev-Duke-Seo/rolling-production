@@ -1,0 +1,20 @@
+@import "styles/global-styles/index";
+
+.check-icon{
+  width: 4.4rem;
+  height: 4.4rem;
+
+  display: flex;
+  padding: 1rem;
+  align-items: flex-start;
+  gap: 1rem;
+
+  border-radius: 10rem;
+  background: var(--gray-500, #555);
+  z-index: $z-index-root;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}

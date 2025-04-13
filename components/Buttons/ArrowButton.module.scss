@@ -1,0 +1,40 @@
+@import '/styles/global-styles/index';
+
+.arrow-button {
+  width: 4rem;
+  height: 4rem;
+  flex-shrink: 0;
+  @include flex-center;
+  position: relative;
+  background-color: transparent;
+
+  .circle {
+    svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 4rem;
+      height: 4rem;
+      flex-shrink: 0;
+      fill: rgba(255, 255, 255, 0.9);
+      fill: transparent;
+      stroke-width: 1px;
+      stroke: var(--gray-300, #ccc);
+      filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.08));
+      backdrop-filter: blur(2px);
+      transform: translate(-50%, -50%); // 완전한 중앙 정렬
+    }
+  }
+
+  .arrow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    width: 1.6rem;
+    height: 1.6rem;
+    flex-shrink: 0;
+
+    transform: translate(-50%, -50%); // 완전한 중앙 정렬
+  }
+}

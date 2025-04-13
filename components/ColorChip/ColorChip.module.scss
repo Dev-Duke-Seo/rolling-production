@@ -1,0 +1,64 @@
+@import '/styles/global-styles/index';
+
+
+.color-chip {
+  position: relative;
+  display: flex;
+  align-items: center;
+    justify-content: center;
+
+
+  width: 16.8rem;
+  height: 16.8rem;
+  flex-shrink: 0;
+
+  border-radius: 1.6rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.beige {
+    background: $beige-200;
+  }
+
+  &.blue {
+    background: $blue-200;
+  }
+
+  &.purple {
+    background: $purple-200;
+  }
+
+  &.green {
+    background: $green-200;
+  }
+
+  .check-icon{
+    position: absolute;
+    top: 1.6rem;
+    right: 1.6rem;
+  }
+
+  @include mobile {
+    width: 12.8rem;
+    height: 12.8rem;
+  }
+}
+
+.backdrop{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 1.6rem;
+
+  background-color: rgba(0, 0, 0, 0.1); // 배경색 및 투명도 조절
+  opacity: 0;
+  transition: opacity .3s ease;
+  &:hover {
+      opacity: 1;
+    }
+}

@@ -1,0 +1,28 @@
+@import '/styles/global-styles/z-index';
+@import '/styles/global-styles/media-breakpoint';
+.popover {
+  position: absolute;
+  z-index: $z-index-floating-menu;
+  opacity: 0;
+
+  border-radius: 0.8rem;
+  border: 1px solid #b6b6b6;
+  background: #fff;
+  box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.08);
+
+  animation: fadeIn 0.3s forwards; /* 애니메이션 적용 */
+
+  @include mobile {
+    position: fixed !important;
+    top: 10% !important;
+    left: 50% !important;
+    bottom: auto !important;
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}

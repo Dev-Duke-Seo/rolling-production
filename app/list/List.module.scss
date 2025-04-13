@@ -1,0 +1,15 @@
+@import '/styles/global-styles/index.scss';
+
+.list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 120rem;
+  margin: 0 auto;
+  // padding: 0 1.6rem;
+  gap: 4rem;
+
+  @include mobile {
+    align-items: center;
+  }
+}

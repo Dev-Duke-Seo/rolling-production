@@ -1,0 +1,85 @@
+@import '/styles/global-styles/index.scss';
+
+.post-by-id-page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  position: relative;
+
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+
+  .message-list {
+    margin-top: 11.3rem;
+    margin-bottom: 24.6rem;
+    width: 100%;
+    max-width: 128rem;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.4rem;
+
+    // 미디어 쿼리
+    @include tablet {
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 90rem;
+      margin-top: 8rem;
+      margin-bottom: 16rem;
+    }
+
+    @include mobile {
+      grid-template-columns: 1fr;
+      max-width: 50rem;
+      gap: 1.6rem;
+      margin-top: 6rem;
+      margin-bottom: 12rem;
+    }
+  }
+
+   &.purple {
+    background-color: $purple-200;
+  }
+
+  &.blue {
+    background-color: $blue-200;
+  }
+
+  &.green {
+    background-color: $green-200;
+  }
+
+  &.beige {
+    background-color: $beige-200;
+  }
+}
+
+.delete-button-container {
+  position: absolute;
+  top: 10rem;
+  right: 4rem;
+}
+
+// 무한 스크롤 관련 스타일
+.observer-area {
+  width: 100%;
+  height: 10rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5rem;
+}
+
+.loading-indicator {
+  font-size: 1.4rem;
+  color: $gray-500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5rem;
+}

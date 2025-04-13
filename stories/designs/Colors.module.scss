@@ -1,0 +1,7 @@
+@import '/styles/global-styles/color-pallete.scss';
+
+.color-box {
+  width: 100px;
+  height: 100px;
+  background-color: var(--color, white);
+}

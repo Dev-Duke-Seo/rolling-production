@@ -1,0 +1,30 @@
+@import 'styles/global-styles/media-breakpoint.scss';
+
+.message-card-list-with-modal {
+    margin-top: 11.3rem;
+    margin-bottom: 24.6rem;
+
+    margin-left: 2.4rem;
+    margin-right: 2.4rem;
+    width: 100%;
+    max-width: 128rem;
+    background-color: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    
+    gap: 2.4rem;
+    justify-items: center;
+    align-items: center;
+
+    @include tablet {
+        grid-template-columns: repeat(2, 1fr);
+        margin-top: 8rem;
+        margin-bottom: 16rem;
+    }
+
+    @include mobile {
+        grid-template-columns: 1fr;
+        margin-top: 6rem;
+        margin-bottom: 12rem;
+    }
+}   

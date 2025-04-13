@@ -1,0 +1,33 @@
+@import 'styles/global-styles/index';
+
+.post-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+
+  .width-box {
+    width: 72rem;
+
+    .profile-image-box {
+      display: flex;
+      align-items: flex-end;
+      gap: 1rem;
+
+      .selected-image {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 10rem;
+        height: 10rem;
+        overflow: hidden;
+      }
+    }
+
+    @include mobile {
+      width: 100%;
+      min-width: 35rem;
+      padding: 0 1.6rem;
+    }
+  }
+}

@@ -1,0 +1,190 @@
+@import '/styles/global-styles/index';
+
+.card-modal {
+  padding: {
+    top: 4rem;
+    right: 4rem;
+    left: 4rem;
+    bottom: 4rem;
+  }
+  width: 60rem;
+  height: 47.6rem;
+  flex-shrink: 0;
+  border-radius: 1.6rem;
+  background: $white;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  //gap: 2.4rem;
+
+  header {
+    width: 100%;
+    height: 11.6rem;
+    flex-shrink: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    position: relative;
+
+    .writer {
+      display: inline-flex;
+      align-items: center;
+      gap: 1.6rem;
+
+      .image-wrapper {
+        display: flex;
+        width: 5.6rem;
+        height: 5.6rem;
+        align-items: center;
+
+        border-radius: 10rem;
+        border: 1px solid var(--gray-200, #eee);
+        background: var(--white, #fff);
+        position: relative;
+
+        img {
+          width: 5.6rem;
+          height: 5.6rem;
+          border-radius: 10rem;
+        }
+      }
+
+      .align-vertical {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.6rem;
+
+        .from {
+          width: max-content;
+          display: flex;
+          align-items: flex-start;
+          gap: 0.6rem;
+
+          font-size: 2rem;
+          font-weight: 400;
+          line-height: 2.4rem; /* 120% */
+          @include mobile {
+            width: 65%;
+          }
+          span {
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+    }
+
+    .created-date {
+      color: $gray-400;
+
+      /* Font/14 Regular */
+      @include font-14-regular;
+
+      @include mobile {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+      }
+    }
+  }
+
+  .horizon-line {
+    width: 100%;
+    height: 0.1rem;
+    flex-shrink: 0;
+
+    background: var(--gray-200, #eee);
+  }
+  .content-wrapper {
+    width: 100%;
+    height: 24rem;
+    flex-shrink: 0;
+    border: none;
+    color: $gray-600;
+  }
+
+  .content {
+    width: 100%;
+    height: 24rem;
+    flex-shrink: 0;
+    border: none;
+    color: $gray-600;
+    @include font-18-regular;
+
+    resize: none; /* 사용자에 의한 크기 조정 비활성화 */
+    overflow-y: auto; /* 수직 스크롤바 활성화 */
+    padding: 1rem; /* 내부 패딩 추가 */
+
+    /* Webkit-based browsers (Chrome, Safari) */
+    &::-webkit-scrollbar {
+      width: 1rem; /* 스크롤바의 너비 */
+    }
+
+    /* 스크롤바 트랙 */
+    &::-webkit-scrollbar-track {
+      background: $white; /* 트랙의 배경색 */
+      border-radius: 1rem; /* 트랙의 둥근 모서리 */
+    }
+
+    /* 스크롤바 핸들 */
+    &::-webkit-scrollbar-thumb {
+      background: $gray-300; /* 핸들의 색상 */
+      border-radius: 10px; /* 핸들의 둥근 모서리 */
+    }
+
+    /* 스크롤바 핸들 호버 시 */
+    &::-webkit-scrollbar-thumb:hover {
+      background: $gray-400; /* 호버 시 핸들의 색상 */
+    }
+  }
+
+  /* Firefox */
+  scrollbar-width: thin; /* 스크롤바 너비: 'auto' or 'thin' */
+  scrollbar-color: $gray-300 $white; /* 스크롤바 색상: 핸들 색상 트랙 색상 */
+}
+
+/* 반응형 스타일 */
+
+@include mobile {
+  .card-modal {
+    margin: 0 auto;
+    padding: {
+      top: 2rem;
+      right: 2rem;
+      left: 2rem;
+      bottom: 2rem;
+    }
+
+    width: 80%;
+    min-width: 30rem;
+    max-width: 32rem;
+    height: fit-content;
+    flex-shrink: 1;
+
+    header {
+      height: fit-content;
+      margin: 1rem 0;
+      flex-shrink: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .writer {
+      .image-wrapper {
+        width: 5rem;
+        height: 5rem;
+
+        img {
+          width: 5rem;
+          height: 5rem;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,65 @@
+@import 'styles/global-styles/index';
+
+.image-option {
+  display: flex;
+  gap: 1.6rem;
+  //margin:2rem;
+
+  @include mobile {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.6rem;
+  }
+}
+
+.image-option-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 16.8rem;
+  height: 16.8rem;
+  flex-shrink: 0;
+
+  border-radius: 1.6rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  img {
+    border-radius: 1.6rem;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  @include mobile {
+    width: 12.8rem;
+    height: 12.8rem;
+  }
+}
+
+.check-icon {
+  position: absolute;
+  top: 1.6rem;
+  right: 1.6rem;
+}
+
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 1.6rem;
+
+  background-color: rgba(255, 255, 255, 0.3); // 배경색 및 투명도 조절
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+
+  &:hover,
+  &.selected {
+    opacity: 1;
+    z-index: 0;
+  }
+}

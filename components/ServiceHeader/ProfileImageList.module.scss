@@ -1,0 +1,31 @@
+@import 'styles/global-styles/index';
+
+.profile-image-list {
+  width: fit-content;
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+
+  :nth-child(1) {
+    position: relative;
+  }
+
+  :nth-child(n + 2) {
+    margin-left: -1.2rem;
+  }
+
+  @for $i from 2 through 10 {
+    :nth-child(#{$i}) {
+      z-index: $z-index-root + $i;
+    }
+  }
+
+  @include mobile {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+
+    :nth-child(n + 2) {
+      margin-left: 0;
+    }
+  }
+}

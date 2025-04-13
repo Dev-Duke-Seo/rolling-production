@@ -1,0 +1,15 @@
+@import '/styles/global-styles/index.scss';
+
+.emoji-list {
+  width: fit-content;
+  display: grid;
+  grid-template-columns: repeat(var(--columns, 3),auto); /* 기본값 3 */
+  column-gap: .8rem;
+  row-gap: 1rem;
+
+}
+
+.emoji-list-empty {
+  @include font-14-regular;  
+}
+

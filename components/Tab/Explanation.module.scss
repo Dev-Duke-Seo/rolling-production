@@ -1,0 +1,6 @@
+@import 'styles/global-styles/index';
+
+.explanation {
+  color: var(--gray-500, #555);
+  @include font-16-regular;
+}

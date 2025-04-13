@@ -1,0 +1,142 @@
+@import '/styles/global-styles/index.scss';
+
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rem;
+
+  padding-top: 6rem;
+  gap: 4.8rem;
+  section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+  }
+}
+.point-article-container {
+  display: flex;
+  align-items: flex-start;
+  padding: 6rem 0rem 6rem 6rem;
+  width: 120rem;
+
+  border-radius: 1.6rem;
+  background: $surface;
+
+  @include tablet {
+    width: 72rem;
+    flex-direction: column;
+
+    .break-line {
+      display: none;
+    }
+  }
+  @include mobile {
+    width: 32rem;
+    padding: 2.4rem 0 6.2rem 0;
+    gap: 5rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &.top {
+    gap: 15.2rem;
+    @include tablet {
+      gap: 1rem;
+    }
+  }
+
+  &.bottom {
+    flex-direction: row-reverse;
+    padding: 6rem 19.2rem 6rem 0rem;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 0;
+
+    @include tablet {
+      width: 72rem;
+      flex-direction: column;
+      padding: 6rem 0rem 6rem 6rem;
+      gap: 1rem;
+    }
+
+    @include mobile {
+      width: 32rem;
+      padding: 2.4rem 0 6.2rem 0;
+      gap: 5rem;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .point-article {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.6rem;
+
+    &.reverse {
+      flex-direction: row-reverse;
+    }
+
+    .point-number {
+      width: fit-content;
+      display: flex;
+      padding: 0.6rem 1.2rem;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      border-radius: 5rem;
+      background: $purple-600;
+
+      color: $white;
+      @include font-14-bold;
+    }
+
+    .explanation-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.8rem;
+
+      @include mobile {
+        width: 27.2rem;
+      }
+
+      .explanation {
+        color: $gray-900;
+        white-space: pre-line;
+
+        /* Font/24 Bold */
+        @include font-24-bold;
+        line-height: 3.6rem;
+        letter-spacing: -0.024rem;
+
+        @include mobile {
+          @include font-18-bold;
+        }
+      }
+
+      .sub-explanation {
+        white-space: pre-line;
+        color: $gray-500;
+        @include font-18-regular;
+        @include mobile {
+          @include font-15-regular;
+        }
+      }
+    }
+  }
+}
+
+.point-image {
+  width: 50%;
+  height: 100%;
+  object-fit: cover;
+
+  @include tablet {
+    width: 100%;
+  }
+}

@@ -1,0 +1,14 @@
+@import './styles/global-styles/index';
+
+
+.color-chip-list {
+  display: flex;
+  gap: 1.6rem;
+  //margin:2rem;
+
+  @include mobile {
+   display: grid;
+   grid-template-columns: repeat(2, 1fr);
+   gap: 1.6rem;
+  }
+}

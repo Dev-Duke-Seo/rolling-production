@@ -1,0 +1,82 @@
+@import "styles/global-styles/index";
+
+.input-box {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+  // width: 100%;
+
+  color: $error;
+
+  @include font-12-regular;
+
+  @include mobile {
+    width: 100%;
+  }
+}
+
+.input {
+  display: flex;
+  // max-width: 32rem;
+  padding: 1.2rem 1.6rem;
+  align-items: center;
+  gap: 1rem;
+
+   @include mobile {
+    width: 100%;
+  }
+
+  border-radius: 0.8rem;
+  background: var(--white, #FFF);
+  @include font-16-regular;
+
+  color: $gray-900;
+
+
+  &.inactive {
+    color: $gray-500;
+    border: 1px solid $gray-300;
+  }
+
+  &:focus-visible {
+    color: $gray-900;
+    border: 1px solid $gray-500;
+  }
+
+  &:focus {
+    color: $gray-900;
+    border: 1px solid $gray-500;
+  }
+
+  &.active {
+    color: $gray-900;
+    border: 1px solid $gray-300;
+  }
+
+  &:hover {
+    color: $gray-900;
+    border: 1px solid $gray-700;
+  }
+
+  &:disabled {
+    color: $gray-400;
+    border: 1px solid $gray-300;
+    background: $gray-100;
+  }
+
+  &.error {
+    color: $gray-900;
+    border: 1px solid $error;
+  }
+
+  &.fullSize {
+    min-width: 30rem;
+    max-width: 100%;
+
+    @include mobile {
+      min-width: 100%;
+      width: 100%;
+    }
+  }
+}
