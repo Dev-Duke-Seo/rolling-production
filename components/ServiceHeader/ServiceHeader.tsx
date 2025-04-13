@@ -49,7 +49,7 @@ export default function ServiceHeader({
   };
 
   const failToShare = () => {
-    showToastWithDurationAndType('URL 공유에 실패했습니다.', 3000, 'error');
+    showToastWithDurationAndType('실패 시나리오 입니다.', 3000, 'error');
   };
 
   const {
