@@ -20,6 +20,7 @@ describe('deleteMessageById', () => {
       sender: 'test sender',
       relationship: '지인',
       font: 'Noto Sans',
+      backgroundColor: 'beige',
     });
     TEST_MESSAGE_ID = message.id;
 
