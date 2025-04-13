@@ -21,7 +21,6 @@ export const useProfileImages = () => {
     queryFn: async () => {
       const response = await getProfileImages();
 
-
       return [...response.imageUrls];
     },
     staleTime: 10000,
