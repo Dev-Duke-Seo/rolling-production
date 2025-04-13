@@ -40,7 +40,13 @@ export default function ProfileImageItem({
                 : undefined
             }
           >
-            <Image className={cx('profile-image')} src={imageUrl!} alt={'profile-image'} fill sizes={'100%'} />
+            <Image
+              className={cx('profile-image')}
+              src={imageUrl || DEFAULT_PROFILE_IMAGE}
+              alt={'profile-image'}
+              fill
+              sizes={'100%'}
+            />
           </div>
         </>
       ) : (
