@@ -102,7 +102,7 @@ export default function ServiceHeader({
                 verticalPadding={2.4}
                 horizontalPadding={2.4}
               >
-                <EmojiList recipientId={Number(recipientId)} gridColumns={3} limit={3} />
+                <EmojiList recipientId={Number(recipientId)} gridColumns={3} />
               </Popover>
             </div>
             <div className={cx('buttons')}>
