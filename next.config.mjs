@@ -42,6 +42,12 @@ const nextConfig = {
         port: '',
         pathname: '/profile/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+        port: '',
+        pathname: '/**',
+      },
       ...(process.env.NODE_ENV === 'development'
         ? [
             {
