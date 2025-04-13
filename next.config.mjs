@@ -28,7 +28,7 @@ const nextConfig = {
 
   images: {
     dangerouslyAllowSVG: false,
-    formats: ['image/avif', 'image/webp'],
+    formats: ['image/avif', 'image/webp', 'image/png'],
     remotePatterns: [
       {
         protocol: 'https',
