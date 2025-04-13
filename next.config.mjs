@@ -48,6 +48,12 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'learn-codeit-kr-static.s3.ap-northeast-2.amazonaws.com',
+        port: '',
+        pathname: '/sprint-proj-image/**',
+      },
       ...(process.env.NODE_ENV === 'development'
         ? [
             {
