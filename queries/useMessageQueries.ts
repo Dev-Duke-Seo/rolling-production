@@ -50,8 +50,8 @@ export const useMutationMessage = (recipientId: number) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ ...queries.recipients.all });
-      queryClient.invalidateQueries({ ...queries.message.list(recipientId) });
-      queryClient.invalidateQueries({ ...queries.message.list(recipientId) });
+      // queryClient.invalidateQueries({ ...queries.message.list(recipientId) });
+      queryClient.invalidateQueries({ queryKey: ['infiniteMessages', recipientId] });
     },
   });
 };
