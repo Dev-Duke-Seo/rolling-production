@@ -8,7 +8,7 @@ import Badge from '@components/Badge';
 import Button from '@components/Buttons/Button';
 
 import styles from './CardModal.module.scss';
-import { toDateString } from '../../app/post/_components/MessageCard';
+import { DEFAULT_PROFILE_IMAGE_URL, toDateString } from '../../app/post/_components/MessageCard';
 
 const cx = classNames.bind(styles);
 
@@ -49,7 +49,13 @@ export default function CardModal({ message = {} as Message, handleClickClose }:
       <header className='header'>
         <div className={cx('writer')}>
           <div className={cx('image-wrapper')}>
-            <Image src={profileImageURL!} alt={'writer-profile-image'} layout='fill' />
+            <Image
+              src={profileImageURL ?? DEFAULT_PROFILE_IMAGE_URL}
+              className={cx('profile-image-img')}
+              alt={`${sender}님의 프로필 이미지`}
+              width={40}
+              height={40}
+            />
           </div>
           <div className={cx('align-vertical')}>
             <h3 className={cx('from')}>

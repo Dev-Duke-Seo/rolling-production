@@ -9,6 +9,9 @@ import DeleteMessageButton from '@components/Buttons/DeleteMessageButton';
 
 import styles from './MessageCard.module.scss';
 
+export const DEFAULT_PROFILE_IMAGE_URL =
+  'https://learn-codeit-kr-static.s3.ap-northeast-2.amazonaws.com/sprint-proj-image/default_avatar.png';
+
 // ReadOnlyEditor를 다이나믹 임포트로 변경
 const ReadOnlyEditor = dynamic(() => import('edit-on-slate').then((mod) => mod.ReadOnlyEditor), {
   ssr: false,
@@ -74,7 +77,7 @@ export default function MessageCard({ message, onClick, isEditMode }: MessageCar
       <header className={cx('header')}>
         <div className={cx('profile-image')}>
           <Image
-            src={profileImageURL ?? ''}
+            src={profileImageURL ?? DEFAULT_PROFILE_IMAGE_URL}
             className={cx('profile-image-img')}
             alt={`${sender}님의 프로필 이미지`}
             width={40}
