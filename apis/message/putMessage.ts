@@ -1,4 +1,4 @@
-import { instanceWithTeamId as instance } from '@apis/axios';
+import { instance } from '@apis/axios';
 import { Font, Message } from '@apis/types/Message';
 
 import { Relationship } from '@components/Badge';

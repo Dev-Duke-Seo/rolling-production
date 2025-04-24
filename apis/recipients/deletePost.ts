@@ -1,4 +1,4 @@
-import { instanceWithTeamId as instance } from '@apis/axios';
+import { instance } from '@apis/axios';
 
 export const deleteRecipient = async (recipientId: number) => {
   const response = await instance.delete(`/recipients/${recipientId}/`);

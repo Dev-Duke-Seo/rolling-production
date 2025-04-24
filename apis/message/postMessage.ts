@@ -1,4 +1,4 @@
-import { instanceWithTeamId as instance } from '@apis/axios';
+import { instance } from '@apis/axios';
 import { Message, PostMessageRequest } from '@apis/types/Message';
 
 export const postMessage = async ({ recipientId, ...data }: PostMessageRequest): Promise<Message> => {

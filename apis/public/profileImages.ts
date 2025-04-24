@@ -1,4 +1,4 @@
-import { instanceWithoutTeamId as instance } from '@apis/axios';
+import { instance } from '@apis/axios';
 import { UrlString } from '@apis/types/Recipient';
 
 //	Response body
@@ -20,7 +20,7 @@ interface ProfileImagesResponse {
 }
 
 export const getProfileImages = async (): Promise<ProfileImagesResponse> => {
-  const response = await instance.get<ProfileImagesResponse>('/profile-images/');
+  const response = await instance.get<ProfileImagesResponse>('public/profile-images/');
 
   return response.data;
 };

@@ -1,6 +1,6 @@
-import { ColorchipColors } from '@constants/COLORS';
-import { instanceWithTeamId as instance } from '@apis/axios';
+import { instance } from '@apis/axios';
 import { Recipient, UrlString } from '@apis/types/Recipient';
+import { ColorchipColors } from '@constants/COLORS';
 
 interface PostRecipientsParams {
   name: string;

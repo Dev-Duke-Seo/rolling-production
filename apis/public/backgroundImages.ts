@@ -1,4 +1,4 @@
-import { instanceWithoutTeamId as instance } from '@apis/axios';
+import { instance } from '@apis/axios';
 
 //	Response body
 // {
@@ -15,7 +15,7 @@ import { instanceWithoutTeamId as instance } from '@apis/axios';
  */
 
 export const getBackgroundImages = async (): Promise<string[]> => {
-  const response = await instance.get('/background-images/');
+  const response = await instance.get('public/background-images/');
 
   return response.data.imageUrls;
 };

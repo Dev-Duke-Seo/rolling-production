@@ -1,4 +1,4 @@
-import { instanceWithTeamId as instance } from '@apis/axios';
+import { instance } from '@apis/axios';
 import { EmojiString, Reaction } from '@apis/types/Reaction';
 
 export type ReactionType = 'increase' | 'decrease';

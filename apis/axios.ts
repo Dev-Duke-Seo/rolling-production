@@ -3,16 +3,9 @@ import axios, { AxiosInstance } from 'axios';
 import { handleApiError } from '@/utils/errorHandler';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-const TEAM_ID = process.env.NEXT_PUBLIC_TEAM_ID;
+// const TEAM_ID = process.env.NEXT_PUBLIC_TEAM_ID;
 
-export const instanceWithTeamId = axios.create({
-  baseURL: `${BASE_URL}/${TEAM_ID}`,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-export const instanceWithoutTeamId = axios.create({
+export const instance = axios.create({
   baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
@@ -32,5 +25,5 @@ const addErrorInterceptor = (instance: AxiosInstance) => {
   );
 };
 
-addErrorInterceptor(instanceWithTeamId);
-addErrorInterceptor(instanceWithoutTeamId);
+addErrorInterceptor(instance);
+addErrorInterceptor(instance);
