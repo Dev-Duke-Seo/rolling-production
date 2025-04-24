@@ -1,5 +1,5 @@
 import { EmojiString, postReaction, toEmojiString } from '@apis/reactions/postReaction';
-import { instanceWithTeamId as instance } from '@apis/axios';
+import { instance as instance } from '@apis/axios';
 
 jest.mock('@apis/axios', () => ({
   instanceWithTeamId: {

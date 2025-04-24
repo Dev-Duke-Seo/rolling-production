@@ -1,11 +1,11 @@
 import { getReaction } from '@apis/reactions/getReaction';
-import { instanceWithTeamId as instance } from '@apis/axios';
-import { EmojiString } from '@apis/reactions/postReaction';
+import { instance } from '@apis/axios';
+import { EmojiString } from '@apis/types/Reaction';
 
 jest.mock('@apis/axios', () => ({
   instanceWithTeamId: {
-    get: jest.fn()
-  }
+    get: jest.fn(),
+  },
 }));
 
 describe('getReaction', () => {
@@ -20,17 +20,17 @@ describe('getReaction', () => {
           recipientId: 123,
           type: 'increase',
           emoji: ':thumbsup:' as EmojiString,
-          count: 5
+          count: 5,
         },
         {
           id: 2,
           recipientId: 123,
           type: 'decrease',
           emoji: ':thumbsdown:' as EmojiString,
-          count: 2
-        }
-      ]
-    }
+          count: 2,
+        },
+      ],
+    },
   };
 
   beforeEach(() => {
@@ -54,13 +54,13 @@ describe('getReaction', () => {
 
   it('응답 데이터가 예상한 형식을 가져야 한다', async () => {
     const result = await getReaction({ recipientId: 123 });
-    
+
     expect(result).toHaveProperty('count');
     expect(result).toHaveProperty('next');
     expect(result).toHaveProperty('previous');
     expect(result).toHaveProperty('results');
     expect(Array.isArray(result.results)).toBe(true);
-    
+
     if (result.results.length > 0) {
       const firstReaction = result.results[0];
       expect(firstReaction).toHaveProperty('id');
@@ -70,4 +70,4 @@ describe('getReaction', () => {
       expect(firstReaction).toHaveProperty('count');
     }
   });
-}); 
+});
