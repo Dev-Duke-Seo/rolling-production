@@ -52,4 +52,5 @@ declare module '*.png' {
 interface Window {
   dataLayer?: any[];
   gtag?: (...args: any[]) => void;
+  Kakao?: any;
 }

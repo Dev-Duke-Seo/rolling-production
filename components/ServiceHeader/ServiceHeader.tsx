@@ -2,6 +2,7 @@
 
 import classNames from 'classnames/bind';
 import { useParams } from 'next/navigation';
+import Script from 'next/script';
 
 import { UrlString } from '@apis/types/Recipient';
 import EmojiIconComponent from '@icons/add-24.svg?component';
@@ -29,6 +30,8 @@ interface ServiceHeaderProps {
   recipientId?: number;
 }
 
+const KAKAO_SDK = 'https://developers.kakao.com/sdk/js/kakao.js';
+
 export default function ServiceHeader({
   title,
   messageCount,
@@ -48,8 +51,18 @@ export default function ServiceHeader({
     showSuccessToast('URL이 복사되었습니다.');
   };
 
-  const failToShare = () => {
-    showToastWithDurationAndType('실패 시나리오 입니다.', 3000, 'error');
+  const shareToKakao = () => {
+    if (window.Kakao && window.Kakao.isInitialized()) {
+      window.Kakao.Share.sendCustom({
+        templateId: 120106,
+        templateArgs: {
+          recipient: title,
+          // description: '바라만 봐도 즐거워지는 힐링 패키지에는 시크릿 스토리가 숨어있어요.',
+        },
+      });
+    } else {
+      showToastWithDurationAndType('카카오 SDK 초기화 실패', 3000, 'error');
+    }
   };
 
   const {
@@ -122,7 +135,7 @@ export default function ServiceHeader({
               <div className={cx('popover-size-container')}>
                 <MenuList
                   menuList={[
-                    { label: '카카오톡 공유하기', onClick: failToShare },
+                    { label: '카카오톡 공유하기', onClick: shareToKakao },
                     { label: 'URL 공유하기', onClick: copyCurrentUrl },
                   ]}
                 />
@@ -131,6 +144,13 @@ export default function ServiceHeader({
           </div>
         </div>
       </div>
+      <Script
+        src={KAKAO_SDK}
+        strategy='lazyOnload'
+        onLoad={() => {
+          window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_KEY);
+        }}
+      />
     </div>
   );
 }
