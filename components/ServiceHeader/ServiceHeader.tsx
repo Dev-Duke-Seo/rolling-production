@@ -23,6 +23,8 @@ import styles from './ServiceHeader.module.scss';
 
 const cx = classNames.bind(styles);
 
+const KAKAO_TEMPLATE_ID = process.env.NEXT_PUBLIC_KAKAO_TEMPLATE_ID;
+
 interface ServiceHeaderProps {
   title: string;
   messageCount: number;
@@ -54,10 +56,10 @@ export default function ServiceHeader({
   const shareToKakao = () => {
     if (window.Kakao && window.Kakao.isInitialized()) {
       window.Kakao.Share.sendCustom({
-        templateId: 120106,
+        templateId: KAKAO_TEMPLATE_ID,
         templateArgs: {
-          recipient: title,
-          // description: '바라만 봐도 즐거워지는 힐링 패키지에는 시크릿 스토리가 숨어있어요.',
+          RECIPIENT: title,
+          RECIPIENT_ID: recipientId,
         },
       });
     } else {
