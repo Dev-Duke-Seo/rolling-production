@@ -3,7 +3,7 @@ import { createQueryKeys, mergeQueryKeys } from '@lukemorales/query-key-factory'
 // message API 쿼리 키
 // post put patch delete->mutation
 const messageKeys = createQueryKeys('message', {
-  list: (recipientId: number) => [recipientId],
+  list: (params: { recipientId: number; limit?: number; offset?: number }) => [params],
 });
 
 // recipients API 쿼리 키

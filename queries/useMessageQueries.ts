@@ -8,33 +8,27 @@ import { PostMessageRequest } from '@apis/types/Message';
 import { queries } from './keys/apiQueryKeys';
 import { getQueryClient } from './QueryProvider';
 
-export const useInfiniteMessages = (recipientId: number, firstPageLimit = 5, nextPagesLimit = 3) => {
+export const useInfiniteMessages = (recipientId: number, firstPageLimit = 5) => {
   return useInfiniteQuery({
-    queryKey: ['infiniteMessages', recipientId, firstPageLimit, nextPagesLimit],
+    queryKey: [...queries.message.list({ recipientId, limit: firstPageLimit, offset: 0 }).queryKey],
     queryFn: async ({ pageParam = 0 }) => {
-      const currentLimit = pageParam === 0 ? firstPageLimit : nextPagesLimit;
-
       const response = await getMessages({
         recipientId,
-        limit: currentLimit,
-        offset: pageParam as number,
+        limit: firstPageLimit,
+        offset: pageParam,
       });
 
       return response;
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) => {
-      let nextOffset = 0;
+      if (!lastPage.next) return undefined;
 
-      if (allPages.length === 1) {
-        nextOffset = firstPageLimit;
-      } else {
-        nextOffset = firstPageLimit + (allPages.length - 1) * nextPagesLimit;
-      }
+      // 현재까지 로드된 항목 수 계산
+      const totalFetched = allPages.reduce((acc, page) => acc + page.results.length, 0);
 
-      const currentLimit = allPages.length === 1 ? firstPageLimit : nextPagesLimit;
-
-      return lastPage.results.length === currentLimit ? nextOffset : undefined;
+      // 다음 offset은 지금까지 불러온 항목 수
+      return totalFetched;
     },
   });
 };
@@ -50,8 +44,7 @@ export const useMutationMessage = (recipientId: number) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ ...queries.recipients.all });
-      // queryClient.invalidateQueries({ ...queries.message.list(recipientId) });
-      queryClient.invalidateQueries({ queryKey: ['infiniteMessages', recipientId] });
+      queryClient.invalidateQueries({ ...queries.message.list({ recipientId }) });
     },
   });
 };
