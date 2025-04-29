@@ -106,7 +106,7 @@ export default function ServiceHeader({
 
           <div className={cx('service-box')}>
             <div className={cx('emoji-service')}>
-              <EmojiList recipientId={Number(recipientId)} gridColumns={3} limit={3} />
+              <EmojiList recipientId={Number(recipientId)} gridColumns={3} displayLimit={3} />
               <button type='button' onClick={toggleEmojiList}>
                 <ArrowIcon />
               </button>

@@ -16,11 +16,11 @@ const cx = classNames.bind(styles);
 export interface EmojiListProps {
   gridColumns?: 3 | 4;
   recipientId: number;
-  limit?: number;
+  displayLimit?: number;
 }
 
-export default function EmojiList({ gridColumns = 3, recipientId, limit = 30 }: EmojiListProps) {
-  const { data } = useReactionList(recipientId, { limit });
+export default function EmojiList({ gridColumns = 3, recipientId, displayLimit = 30 }: EmojiListProps) {
+  const { data } = useReactionList(recipientId);
 
   // 데이터를 모두 EmojiIcon으로 변환하고 집계
   const emojiList = React.useMemo((): [EmojiIcon, number][] => {
@@ -46,7 +46,8 @@ export default function EmojiList({ gridColumns = 3, recipientId, limit = 30 }: 
     // Map을 [emoji, count] 형태의 배열로 변환
     return Array.from(aggregatedMap.entries())
       .sort((a, b) => b[1] - a[1])
-      .filter(([_, count]) => count > 0);
+      .filter(([_, count]) => count > 0)
+      .slice(0, displayLimit);
   }, [data]);
 
   return emojiList.length > 0 ? (

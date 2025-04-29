@@ -72,7 +72,7 @@ export default function Card({
           <div className={cx('horizontal-line')} />
           {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
           <div onClick={handleEmojiClick} onMouseEnter={handleEmojiHover} role='button' tabIndex={0}>
-            <EmojiList gridColumns={3} recipientId={id} limit={3} />
+            <EmojiList gridColumns={3} recipientId={id} displayLimit={3} />
           </div>
         </footer>
 
