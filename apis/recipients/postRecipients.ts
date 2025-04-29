@@ -2,7 +2,7 @@ import { instance } from '@apis/axios';
 import { Recipient, UrlString } from '@apis/types/Recipient';
 import { ColorchipColors } from '@constants/COLORS';
 
-interface PostRecipientsParams {
+export interface PostRecipientsParams {
   name: string;
   backgroundColor: ColorchipColors | null;
   backgroundImageURL?: UrlString | null;

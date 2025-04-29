@@ -11,6 +11,7 @@ import { Recipient, UrlString } from '@apis/types/Recipient';
 import { COLORCHIP_COLORS, ColorchipColors } from '@constants/COLORS';
 import { FORM_ERROR_MESSAGES } from '@constants/Errors';
 import { useBackgroundImages } from '@queries/usePublicApiQueries';
+import { usePostRecipient } from '@queries/useRecipientQueries';
 
 import Button from '@components/Buttons/Button';
 import ColorChipList from '@components/ColorChip/ColorChipList';
@@ -27,6 +28,7 @@ import styles from './PostPage.module.scss';
 const cx = classNames.bind(styles);
 
 export default function PostPage() {
+  const { mutateAsync: postRecipient } = usePostRecipient();
   const { nullableIndex, handleIndexChange, resetIndex } = useNullableIndex();
   const { selectedTab, handleTabChange } = useTab('컬러');
 
@@ -63,7 +65,7 @@ export default function PostPage() {
       backgroundImageURL: selectedTab === '이미지' ? (selectedImage as UrlString) : null,
     };
 
-    const data = await postRecipients(requestData);
+    const data = await postRecipient(requestData);
 
     if (!data) {
       return;

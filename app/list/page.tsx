@@ -1,5 +1,7 @@
 'use client';
 
+/* eslint-disable compat/compat */
+
 import { useEffect, useRef } from 'react';
 
 import classNames from 'classnames/bind';
@@ -19,102 +21,144 @@ const cx = classNames.bind(styles);
 const CarouselWithLabel = withLabel(Carousel);
 
 export default function List() {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useRecipientsListInfinite({ limit: 8 });
+  const {
+    data: popularData,
+    fetchNextPage: fetchNextPopular,
+    hasNextPage: hasNextPopular,
+    isFetchingNextPage: isFetchingNextPopular,
+  } = useRecipientsListInfinite({ limit: 8, sort: 'popular' });
 
-  const observerRef = useRef<IntersectionObserver | null>(null);
-  const loadMoreRef = useRef<HTMLDivElement>(null);
+  const {
+    data: recentData,
+    fetchNextPage: fetchNextRecent,
+    hasNextPage: hasNextRecent,
+    isFetchingNextPage: isFetchingNextRecent,
+  } = useRecipientsListInfinite({ limit: 8, sort: 'recent' });
 
-  // 캐러셀이 끝에 도달했을 때 호출되는 핸들러
-  const handleReachEnd = () => {
-    if (hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
+  const popularObserverRef = useRef<IntersectionObserver | null>(null);
+  const recentObserverRef = useRef<IntersectionObserver | null>(null);
+  const loadMorePopularRef = useRef<HTMLDivElement>(null);
+  const loadMoreRecentRef = useRef<HTMLDivElement>(null);
+
+  // 인기 캐러셀이 끝에 도달했을 때 호출되는 핸들러
+  const handleReachEndPopular = () => {
+    if (hasNextPopular && !isFetchingNextPopular) {
+      fetchNextPopular();
+    }
+  };
+
+  // 최근 캐러셀이 끝에 도달했을 때 호출되는 핸들러
+  const handleReachEndRecent = () => {
+    if (hasNextRecent && !isFetchingNextRecent) {
+      fetchNextRecent();
     }
   };
 
   useEffect(() => {
-    if (observerRef.current) {
-      observerRef.current.disconnect();
+    if (popularObserverRef.current) {
+      popularObserverRef.current.disconnect();
     }
 
-    // eslint-disable-next-line compat/compat
-    observerRef.current = new IntersectionObserver(
+    popularObserverRef.current = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-          console.log('fetching next page');
-          fetchNextPage();
+        if (entries[0].isIntersecting && hasNextPopular && !isFetchingNextPopular) {
+          fetchNextPopular();
         }
       },
       { threshold: 1 },
     );
 
-    if (loadMoreRef.current) {
-      observerRef.current.observe(loadMoreRef.current);
+    if (loadMorePopularRef.current) {
+      popularObserverRef.current.observe(loadMorePopularRef.current);
     }
 
     return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
+      if (popularObserverRef.current) {
+        popularObserverRef.current.disconnect();
       }
     };
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+  }, [fetchNextPopular, hasNextPopular, isFetchingNextPopular]);
 
-  // 모든 페이지의 데이터를 합침
-  const allRecipients = data?.pages.flatMap((page) => page.results) || [];
+  useEffect(() => {
+    if (recentObserverRef.current) {
+      recentObserverRef.current.disconnect();
+    }
 
-  // TODO: 정렬 제대로 되는지 확인
-  const CardsByMessageCount = [...allRecipients]
-    .sort((a, b) => b.messageCount - a.messageCount)
-    .map((recipient) => (
-      <Card
-        key={recipient.id}
-        backgroundColor={recipient.backgroundColor as ColorchipColors}
-        name={recipient.name}
-        id={recipient.id}
-        backgroundImageURL={recipient.backgroundImageURL as UrlString}
-        messageCount={recipient.messageCount}
-        recentMessages={recipient.recentMessages}
-        reactionCount={recipient.reactionCount}
-        topReactions={recipient.topReactions}
-      />
-    ));
+    recentObserverRef.current = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextRecent && !isFetchingNextRecent) {
+          fetchNextRecent();
+        }
+      },
+      { threshold: 1 },
+    );
 
-  const CardsSortedByRecent = [...allRecipients]
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .map((recipient) => (
-      <Card
-        key={recipient.id}
-        backgroundColor={recipient.backgroundColor as ColorchipColors}
-        name={recipient.name}
-        id={recipient.id}
-        backgroundImageURL={recipient.backgroundImageURL as UrlString}
-        messageCount={recipient.messageCount}
-        recentMessages={recipient.recentMessages}
-        reactionCount={recipient.reactionCount}
-        topReactions={recipient.topReactions}
-      />
-    ));
+    if (loadMoreRecentRef.current) {
+      recentObserverRef.current.observe(loadMoreRecentRef.current);
+    }
+
+    return () => {
+      if (recentObserverRef.current) {
+        recentObserverRef.current.disconnect();
+      }
+    };
+  }, [fetchNextRecent, hasNextRecent, isFetchingNextRecent]);
+
+  // 인기 롤링페이퍼(popular) 데이터
+  const popularRecipients = popularData?.pages.flatMap((page) => page.results) || [];
+
+  // 최근 롤링페이퍼(recent) 데이터
+  const recentRecipients = recentData?.pages.flatMap((page) => page.results) || [];
+
+  const PopularCards = popularRecipients.map((recipient) => (
+    <Card
+      key={recipient.id}
+      backgroundColor={recipient.backgroundColor as ColorchipColors}
+      name={recipient.name}
+      id={recipient.id}
+      backgroundImageURL={recipient.backgroundImageURL as UrlString}
+      messageCount={recipient.messageCount}
+      recentMessages={recipient.recentMessages}
+      reactionCount={recipient.reactionCount}
+      topReactions={recipient.topReactions}
+    />
+  ));
+
+  const RecentCards = recentRecipients.map((recipient) => (
+    <Card
+      key={recipient.id}
+      backgroundColor={recipient.backgroundColor as ColorchipColors}
+      name={recipient.name}
+      id={recipient.id}
+      backgroundImageURL={recipient.backgroundImageURL as UrlString}
+      messageCount={recipient.messageCount}
+      recentMessages={recipient.recentMessages}
+      reactionCount={recipient.reactionCount}
+      topReactions={recipient.topReactions}
+    />
+  ));
 
   return (
     <div className={cx('list')}>
       <CarouselWithLabel
         label={'인기 롤링 페이퍼 🔥'}
         numberOfContentsToDisplay={4}
-        onReachEnd={handleReachEnd}
+        onReachEnd={handleReachEndPopular}
         itemWidth={275}
         itemGap={20}
-        ref={loadMoreRef}
+        ref={loadMorePopularRef}
       >
-        {CardsByMessageCount}
+        {PopularCards}
       </CarouselWithLabel>
       <CarouselWithLabel
         label={'최근에 작성된 롤링 페이퍼 ⭐️'}
         numberOfContentsToDisplay={4}
-        onReachEnd={handleReachEnd}
+        onReachEnd={handleReachEndRecent}
         itemWidth={275}
         itemGap={20}
-        ref={loadMoreRef}
+        ref={loadMoreRecentRef}
       >
-        {CardsSortedByRecent}
+        {RecentCards}
       </CarouselWithLabel>
     </div>
   );

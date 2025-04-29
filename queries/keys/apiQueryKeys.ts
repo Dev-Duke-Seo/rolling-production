@@ -9,7 +9,9 @@ const messageKeys = createQueryKeys('message', {
 // recipients API 쿼리 키
 const recipientsKeys = createQueryKeys('recipients', {
   all: null,
-  list: (params: { limit?: number; offset?: number } = { limit: 8, offset: 0 }) => [params],
+  list: (params: { limit?: number; offset?: number; sort?: 'popular' | 'recent' } = { limit: 8, offset: 0 }) => [
+    params,
+  ],
   byId: (recipientId: number) => [recipientId],
 });
 
