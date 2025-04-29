@@ -7,7 +7,6 @@ type GetRecipientsByIdResponse = Recipient;
 
 export const getRecipientsById = async (recipientId: number): Promise<GetRecipientsByIdResponse> => {
   const { data }: AxiosResponse<GetRecipientsByIdResponse> = await instance.get(`/recipients/${recipientId}/`);
-  console.log(data);
 
   return data;
 };
