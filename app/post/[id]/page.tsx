@@ -17,19 +17,12 @@ import styles from './PostByIdPage.module.scss';
 
 const cx = classNames.bind(styles);
 
-const FIRST_PAGE_LIMIT = 5;
-const NEXT_PAGES_LIMIT = 3;
-
 export default function PostByIdPage({ params, isEditMode = false }: { params: { id: string }; isEditMode: boolean }) {
   // query
   const { data: recipient } = useRecipientById(Number(params.id));
   const observerRef = useRef<HTMLDivElement>(null);
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteMessages(
-    Number(params.id),
-    FIRST_PAGE_LIMIT,
-    NEXT_PAGES_LIMIT,
-  );
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteMessages(Number(params.id));
 
   const messages = data?.pages.flatMap((page) => page.results) || [];
 
