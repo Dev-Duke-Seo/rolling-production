@@ -6,7 +6,6 @@ import { useForm } from 'react-hook-form';
 import classNames from 'classnames/bind';
 import { useRouter } from 'next/navigation';
 
-import { postRecipients } from '@apis/recipients/postRecipients';
 import { Recipient, UrlString } from '@apis/types/Recipient';
 import { COLORCHIP_COLORS, ColorchipColors } from '@constants/COLORS';
 import { FORM_ERROR_MESSAGES } from '@constants/Errors';
