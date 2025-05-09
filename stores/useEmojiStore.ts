@@ -30,6 +30,10 @@ const initialState = {
   userEmojis: [],
 };
 
+// 이모지 일치 여부 확인 함수 분리
+const isMatchingEmoji = (item: UserEmoji, userId: number, emoji: EmojiIcon) =>
+  item.userId === userId && item.emoji === emoji;
+
 export const useEmojiStore = create<EmojiStore>()(
   persist(
     (set, get) => ({
@@ -43,12 +47,12 @@ export const useEmojiStore = create<EmojiStore>()(
 
       removeLocalEmoji: (userId: number, emoji: EmojiIcon) => {
         set((state) => ({
-          userEmojis: state.userEmojis.filter((item) => !(item.userId === userId && item.emoji === emoji)),
+          userEmojis: state.userEmojis.filter((item) => !isMatchingEmoji(item, userId, emoji)),
         }));
       },
 
       hasLocalEmoji: (userId: number, emoji: EmojiIcon) => {
-        return get().userEmojis.some((item) => item.userId === userId && item.emoji === emoji);
+        return get().userEmojis.some((item) => isMatchingEmoji(item, userId, emoji));
       },
 
       reset: () => {
