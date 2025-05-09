@@ -16,11 +16,8 @@ import EmojiService from '../EmojiService/EmojiService';
 
 const cx = classNames.bind(styles);
 
-interface EmojiReactionSectionProps {
-  recipientId: number;
-}
-
-export default function EmojiReactionSection({ recipientId }: EmojiReactionSectionProps) {
+// EmojiListToggle 컴포넌트 분리
+const EmojiListToggle = ({ recipientId }: { recipientId: number }) => {
   const {
     togglePopover: toggleEmojiList,
     popoverRef: emojiListRef,
@@ -28,6 +25,27 @@ export default function EmojiReactionSection({ recipientId }: EmojiReactionSecti
     isPopoverOpen: isEmojiListOpen,
   } = usePopover();
 
+  return (
+    <div className={cx('emoji-service')}>
+      <EmojiList recipientId={recipientId} gridColumns={3} displayLimit={3} />
+      <button type='button' onClick={toggleEmojiList} className={cx('arrow-button')}>
+        <ArrowIcon />
+      </button>
+      <Popover
+        popoverRef={emojiListRef}
+        setIsPopoverOpen={setOpenEmojiList}
+        isPopoverOpen={isEmojiListOpen}
+        verticalPadding={2.4}
+        horizontalPadding={2.4}
+      >
+        <EmojiList recipientId={recipientId} gridColumns={3} />
+      </Popover>
+    </div>
+  );
+};
+
+// AddEmojiButton 컴포넌트 분리
+const AddEmojiButton = ({ recipientId }: { recipientId: number }) => {
   const {
     togglePopover: toggleAddEmoji,
     popoverRef: addEmojiRef,
@@ -36,30 +54,26 @@ export default function EmojiReactionSection({ recipientId }: EmojiReactionSecti
   } = usePopover();
 
   return (
+    <div className={cx('buttons')}>
+      <Button type={'outlined'} size={36} handleClickButton={toggleAddEmoji}>
+        <EmojiIconComponent /> <span className={cx('add-emoji-text')}>추가</span>
+      </Button>
+      <Popover popoverRef={addEmojiRef} setIsPopoverOpen={setOpenAddEmoji} isPopoverOpen={isAddEmojiOpen}>
+        <EmojiService recipientId={recipientId} />
+      </Popover>
+    </div>
+  );
+};
+
+interface EmojiReactionSectionProps {
+  recipientId: number;
+}
+
+export default function EmojiReactionSection({ recipientId }: EmojiReactionSectionProps) {
+  return (
     <div className={cx('emoji-reaction-section')}>
-      <div className={cx('emoji-service')}>
-        <EmojiList recipientId={recipientId} gridColumns={3} displayLimit={3} />
-        <button type='button' onClick={toggleEmojiList} className={cx('arrow-button')}>
-          <ArrowIcon />
-        </button>
-        <Popover
-          popoverRef={emojiListRef}
-          setIsPopoverOpen={setOpenEmojiList}
-          isPopoverOpen={isEmojiListOpen}
-          verticalPadding={2.4}
-          horizontalPadding={2.4}
-        >
-          <EmojiList recipientId={recipientId} gridColumns={3} />
-        </Popover>
-      </div>
-      <div className={cx('buttons')}>
-        <Button type={'outlined'} size={36} handleClickButton={toggleAddEmoji}>
-          <EmojiIconComponent /> <span className={cx('add-emoji-text')}>추가</span>
-        </Button>
-        <Popover popoverRef={addEmojiRef} setIsPopoverOpen={setOpenAddEmoji} isPopoverOpen={isAddEmojiOpen}>
-          <EmojiService recipientId={recipientId} />
-        </Popover>
-      </div>
+      <EmojiListToggle recipientId={recipientId} />
+      <AddEmojiButton recipientId={recipientId} />
     </div>
   );
 }

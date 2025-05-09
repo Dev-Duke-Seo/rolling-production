@@ -15,6 +15,10 @@ interface MessageCardListWithModalProps {
   isEditMode: boolean;
 }
 
+/**
+ * 메시지 카드 목록과 모달 컴포넌트
+ * MessageList와 MessageModalContainer를 조합해 메시지 목록 UI와 모달 기능을 제공
+ */
 export default function MessageCardListWithModal({ messages, isEditMode }: MessageCardListWithModalProps) {
   return (
     <div className={cx('message-card-list-with-modal')}>
@@ -22,7 +26,7 @@ export default function MessageCardListWithModal({ messages, isEditMode }: Messa
         <MessageList
           messages={messages}
           isEditMode={isEditMode}
-          onMessageClick={() => {}} // MessageModalContainer에서 덮어씌울 예정
+          onMessageClick={() => {}} // MessageModalContainer에서 덮어씌움
         />
       </MessageModalContainer>
     </div>
