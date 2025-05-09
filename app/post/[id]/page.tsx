@@ -3,10 +3,8 @@
 import classNames from 'classnames/bind';
 
 import MessageCardListWithModal from '@/app/post/_components/MessageCardListWithModal';
+import { useRecipientDetailPage } from '@/src/domains/recipient/hooks/useRecipientDetailPage';
 import { useInfiniteScroll } from '@/src/shared/hooks/useInfiniteScroll';
-import { MessagePreview, UrlString } from '@apis/types/Recipient';
-import { useInfiniteMessages } from '@queries/useMessageQueries';
-import { useRecipientById } from '@queries/useRecipientQueries';
 
 import DeleteRecipientButton from '@components/Buttons/DeleteButton';
 import ServiceHeader from '@components/ServiceHeader/ServiceHeader';
@@ -17,23 +15,32 @@ import styles from './PostByIdPage.module.scss';
 const cx = classNames.bind(styles);
 
 export default function PostByIdPage({ params, isEditMode = false }: { params: { id: string }; isEditMode: boolean }) {
-  // query
-  const { data: recipient } = useRecipientById(Number(params.id));
+  const recipientId = Number(params.id);
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteMessages(Number(params.id));
+  const {
+    // 롤링페이퍼 데이터
+    recipient,
+    isRecipientLoading,
+
+    // 메시지 목록 데이터
+    messages,
+    profileImages,
+
+    // 무한 스크롤 관련 데이터
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useRecipientDetailPage(recipientId);
 
   const observerRef = useInfiniteScroll(fetchNextPage, hasNextPage, isFetchingNextPage, {
     rootMargin: '0px 0px 300px 0px',
   });
 
-  const messages = data?.pages.flatMap((page) => page.results) || [];
-
-  if (!recipient) {
+  if (isRecipientLoading || !recipient) {
     return <div>로딩 중...</div>;
   }
 
-  const { backgroundColor, backgroundImageURL, messageCount, recentMessages } = recipient;
-  const profileImages = (recentMessages as MessagePreview[]).map((message: MessagePreview) => message.profileImageURL);
+  const { backgroundColor, backgroundImageURL } = recipient;
 
   return (
     <div
@@ -42,15 +49,11 @@ export default function PostByIdPage({ params, isEditMode = false }: { params: {
       })}
       style={backgroundImageURL ? { backgroundImage: `url(${backgroundImageURL})` } : {}}
     >
-      <ServiceHeader
-        title={recipient.name}
-        messageCount={messageCount}
-        profileImages={profileImages.filter((image): image is UrlString => image !== null)}
-      />
+      <ServiceHeader title={recipient.name} messageCount={recipient.messageCount} profileImages={profileImages} />
       <MessageCardListWithModal messages={messages} isEditMode={isEditMode} />
       {isEditMode && (
         <div className={cx('delete-button-container')}>
-          <DeleteRecipientButton recipientId={Number(params.id)} />
+          <DeleteRecipientButton recipientId={recipientId} />
         </div>
       )}
 
