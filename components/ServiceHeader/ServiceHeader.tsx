@@ -5,11 +5,10 @@ import { useParams } from 'next/navigation';
 
 import { UrlString } from '@apis/types/Recipient';
 
-import ProfileImageList from '@components/ServiceHeader/ProfileImageList';
-import EmojiReactionSection from '@components/ServiceHeader/EmojiReactionSection/EmojiReactionSection';
-import ShareButtonMenu from '@components/ServiceHeader/ShareButtonMenu/ShareButtonMenu';
-
+import EmojiReactionSection from './EmojiReactionSection/EmojiReactionSection';
+import ProfileImageList from './ProfileImageList';
 import styles from './ServiceHeader.module.scss';
+import ShareButtonMenu from './ShareButtonMenu/ShareButtonMenu';
 
 const cx = classNames.bind(styles);
 

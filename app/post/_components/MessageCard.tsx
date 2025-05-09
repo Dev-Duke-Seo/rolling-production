@@ -1,4 +1,5 @@
 import classNames from 'classnames/bind';
+import { Descendant } from 'edit-on-slate';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 
@@ -7,10 +8,9 @@ import { Message } from '@apis/types/Message';
 import Badge from '@components/Badge';
 import DeleteMessageButton from '@components/Buttons/DeleteMessageButton';
 
-import styles from './MessageCard.module.scss';
+import { DEFAULT_PROFILE_IMAGE_URL, formatDate, parseMessageContent } from '@utils/messageUtils';
 
-export const DEFAULT_PROFILE_IMAGE_URL =
-  'https://learn-codeit-kr-static.s3.ap-northeast-2.amazonaws.com/sprint-proj-image/default_avatar.png';
+import styles from './MessageCard.module.scss';
 
 // ReadOnlyEditor를 다이나믹 임포트로 변경
 const ReadOnlyEditor = dynamic(() => import('edit-on-slate').then((mod) => mod.ReadOnlyEditor), {
@@ -19,20 +19,6 @@ const ReadOnlyEditor = dynamic(() => import('edit-on-slate').then((mod) => mod.R
 });
 
 const cx = classNames.bind(styles);
-
-export const toDateString = (date: Date | string) => {
-  const dateObj = typeof date === 'string' ? new Date(date) : date;
-
-  return dateObj
-    .toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    })
-    .replace(/\s/g, '')
-    .replace(/\.$/, '');
-};
-
 interface MessageCardProps {
   message: Message;
   onClick?: () => void;
@@ -42,21 +28,8 @@ interface MessageCardProps {
 export default function MessageCard({ message, onClick, isEditMode }: MessageCardProps) {
   const { content, createdAt, sender, profileImageURL, relationship } = message;
 
-  // content가 JSON 형식인지 일반 텍스트인지 확인하고 적절히 처리
-  let contentValue;
-
-  try {
-    // JSON 형식인 경우 파싱
-    contentValue = JSON.parse(content);
-  } catch (error) {
-    // 일반 텍스트인 경우 Slate 형식으로 변환
-    contentValue = [
-      {
-        type: 'paragraph',
-        children: [{ text: content || '' }],
-      },
-    ];
-  }
+  // 메시지 내용을 Slate 에디터 형식으로 파싱
+  const contentValue = parseMessageContent(content);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -94,13 +67,13 @@ export default function MessageCard({ message, onClick, isEditMode }: MessageCar
       <div className={cx('divider')} aria-hidden='true' />
       <section className={cx('content')}>
         <ReadOnlyEditor
-          value={contentValue}
+          value={contentValue as Descendant[]}
           editorStyle={{ width: '100%', border: 'none', boxShadow: 'none', minHeight: '20rem', maxHeight: '10rem' }}
           containerStyle={{ width: '100%', padding: '0', boxShadow: 'none', border: 'none' }}
         />
       </section>
       <footer className={cx('footer')}>
-        <div className={cx('created-at')}>{toDateString(createdAt)}</div>
+        <div className={cx('created-at')}>{formatDate(createdAt)}</div>
       </footer>
       <div className={cx('delete-button-container')}>{isEditMode && <DeleteMessageButton cardId={message.id} />}</div>
     </div>

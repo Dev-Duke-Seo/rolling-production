@@ -1,4 +1,5 @@
 import classNames from 'classnames/bind';
+import { Descendant } from 'edit-on-slate';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 
@@ -7,8 +8,9 @@ import { Message } from '@apis/types/Message';
 import Badge from '@components/Badge';
 import Button from '@components/Buttons/Button';
 
+import { DEFAULT_PROFILE_IMAGE_URL, formatDate, parseMessageContent } from '@utils/messageUtils';
+
 import styles from './CardModal.module.scss';
-import { DEFAULT_PROFILE_IMAGE_URL, toDateString } from '../../app/post/_components/MessageCard';
 
 const cx = classNames.bind(styles);
 
@@ -26,23 +28,10 @@ const ReadOnlyEditor = dynamic(() => import('edit-on-slate').then((mod) => mod.R
 export default function CardModal({ message = {} as Message, handleClickClose }: CardModalProps) {
   const { sender, content, profileImageURL, createdAt, relationship } = message;
 
-  const createdAtDate = toDateString(createdAt);
+  const formattedDate = formatDate(createdAt);
 
-  // content가 JSON 형식인지 일반 텍스트인지 확인하고 적절히 처리
-  let contentValue;
-
-  try {
-    // JSON 형식인 경우 파싱
-    contentValue = JSON.parse(content);
-  } catch (error) {
-    // 일반 텍스트인 경우 Slate 형식으로 변환
-    contentValue = [
-      {
-        type: 'paragraph',
-        children: [{ text: content || '' }],
-      },
-    ];
-  }
+  // 메시지 내용을 Slate 에디터 형식으로 파싱
+  const contentValue = parseMessageContent(content);
 
   return (
     <article className={cx('card-modal')}>
@@ -64,12 +53,12 @@ export default function CardModal({ message = {} as Message, handleClickClose }:
             <Badge relationship={relationship} />
           </div>
         </div>
-        <p className={cx('created-date')}>{createdAtDate}</p>
+        <p className={cx('created-date')}>{formattedDate}</p>
       </header>
       <div className={cx('horizon-line')} />
       <div className={cx('content-wrapper')}>
         <ReadOnlyEditor
-          value={contentValue}
+          value={contentValue as Descendant[]}
           containerStyle={{ width: '100%', boxShadow: 'none', border: 'none', maxHeight: '20rem' }}
           editorStyle={{ width: '100%', border: 'none', boxShadow: 'none' }}
         />
