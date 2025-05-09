@@ -8,7 +8,7 @@ import ArrowIcon from '@icons/arrow_down.svg?component';
 import Button from '@components/Buttons/Button';
 import Popover from '@components/Popover';
 
-import { usePopover } from '@hooks/usePopover';
+import { usePopover } from '@hooks/ui/usePopover';
 
 import styles from './EmojiReactionSection.module.scss';
 import EmojiList from '../EmojiService/EmojiList';

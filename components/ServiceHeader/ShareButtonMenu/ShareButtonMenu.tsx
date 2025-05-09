@@ -8,8 +8,8 @@ import Button from '@components/Buttons/Button';
 import MenuList from '@components/MenuList';
 import Popover from '@components/Popover';
 
-import { usePopover } from '@hooks/usePopover';
-import { useToast } from '@hooks/useToast';
+import { usePopover } from '@hooks/ui/usePopover';
+import { useToast } from '@hooks/ui/useToast';
 
 import styles from './ShareButtonMenu.module.scss';
 

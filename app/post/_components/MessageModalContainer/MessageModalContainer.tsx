@@ -3,7 +3,7 @@ import React from 'react';
 import CardModal from '@components/Modals/CardModal';
 import Modal from '@components/Modals/Modal';
 
-import { useModalState } from '@hooks/useModalState';
+import { useModalState } from '@hooks/ui/useModalState';
 
 interface MessageModalContainerProps {
   children: React.ReactNode;

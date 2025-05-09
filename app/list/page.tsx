@@ -10,8 +10,8 @@ import { ColorchipColors } from '@constants/COLORS';
 
 import { withLabel } from '@components/Label';
 
-import { useInfiniteScroll } from '@hooks/useInfiniteScroll';
-import { useRecipientsListPage } from '@hooks/useRecipientsListPage';
+import { useInfiniteScroll } from '@hooks/common/useInfiniteScroll';
+import { useRecipientsListPage } from '@hooks/pages/useRecipientsListPage';
 
 import Carousel from './_components/Carousel';
 import styles from './List.module.scss';

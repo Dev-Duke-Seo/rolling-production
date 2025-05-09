@@ -7,7 +7,7 @@ import LogoIcon from '@icons/logo-icon.svg?component';
 
 import Button from '@components/Buttons/Button';
 
-import { usePathConfig } from '@hooks/usePathConfigs';
+import { usePathConfig } from '@hooks/common/usePathConfigs';
 
 import styles from './GNB.module.scss';
 

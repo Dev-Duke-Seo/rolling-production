@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { FormType } from '@components/Input';
 import MenuList from '@components/MenuList';
 
-import { useDropdown } from '@hooks/useDropdown';
+import { useDropdown } from '@hooks/ui/useDropdown';
 
 import styles from './Dropdown.module.scss';
 
