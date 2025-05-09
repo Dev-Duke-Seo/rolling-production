@@ -8,8 +8,9 @@ import DeleteRecipientButton from '@components/Buttons/DeleteButton';
 import ServiceHeader from '@components/ServiceHeader/ServiceHeader';
 import Explanation from '@components/Tab/Explanation';
 
-import styles from './PostByIdPage.module.scss';
 import { useInfiniteScroll, useRecipientDetailPage } from '@hooks/index';
+
+import styles from './PostByIdPage.module.scss';
 
 const cx = classNames.bind(styles);
 
