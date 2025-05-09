@@ -1,21 +1,18 @@
 'use client';
 
-import { PropsWithChildren } from 'react';
-
 import classNames from 'classnames/bind';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import Button from '@components/Buttons/Button';
+import { PointArticle } from '@components/PointArticle';
 
 import styles from './Home.module.scss';
 
 const cx = classNames.bind(styles);
 
-interface PointArticleProps {
-  pointNumber: string;
-  subExplanation: string;
-}
+// 이미지 자동 크기 조정을 위한 상수
+const AUTO_SIZE = 0;
 
 export default function Home() {
   const router = useRouter();
@@ -38,8 +35,8 @@ export default function Home() {
             className={cx('point-image')}
             src='/images/main-top.png'
             alt='point-1'
-            width={0}
-            height={0}
+            width={AUTO_SIZE}
+            height={AUTO_SIZE}
             sizes='100vw'
             priority
           />
@@ -52,8 +49,8 @@ export default function Home() {
             className={cx('point-image')}
             src='/images/main-bottom.png'
             alt='point-2'
-            width={0}
-            height={0}
+            width={AUTO_SIZE}
+            height={AUTO_SIZE}
             sizes='100vw'
             priority
           />
@@ -64,17 +61,5 @@ export default function Home() {
         구경해보기
       </Button>
     </main>
-  );
-}
-
-function PointArticle({ pointNumber, subExplanation, children }: PropsWithChildren<PointArticleProps>) {
-  return (
-    <article className={cx('point-article')}>
-      <div className={cx('point-number')}>{pointNumber}</div>
-      <div className={cx('explanation-container')}>
-        <p className={cx('explanation')}>{children}</p>
-        <p className={cx('sub-explanation')}>{subExplanation}</p>
-      </div>
-    </article>
   );
 }
