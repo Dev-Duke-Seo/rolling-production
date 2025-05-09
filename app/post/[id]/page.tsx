@@ -3,12 +3,13 @@
 import classNames from 'classnames/bind';
 
 import MessageCardListWithModal from '@/app/post/_components/MessageCardListWithModal';
-import { useRecipientDetailPage } from '@/src/domains/recipient/hooks/useRecipientDetailPage';
-import { useInfiniteScroll } from '@/src/shared/hooks/useInfiniteScroll';
 
 import DeleteRecipientButton from '@components/Buttons/DeleteButton';
 import ServiceHeader from '@components/ServiceHeader/ServiceHeader';
 import Explanation from '@components/Tab/Explanation';
+
+import { useInfiniteScroll } from '@hooks/useInfiniteScroll';
+import { useRecipientDetailPage } from '@hooks/useRecipientDetailPage';
 
 import styles from './PostByIdPage.module.scss';
 

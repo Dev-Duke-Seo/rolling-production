@@ -5,12 +5,13 @@
 import classNames from 'classnames/bind';
 
 import Card from '@/app/list/_components/Card/Card';
-import { useRecipientsListPage } from '@/src/domains/recipient/hooks/useRecipientsListPage';
-import { useInfiniteScroll } from '@/src/shared/hooks/useInfiniteScroll';
 import { UrlString } from '@apis/types/Recipient';
 import { ColorchipColors } from '@constants/COLORS';
 
 import { withLabel } from '@components/Label';
+
+import { useInfiniteScroll } from '@hooks/useInfiniteScroll';
+import { useRecipientsListPage } from '@hooks/useRecipientsListPage';
 
 import Carousel from './_components/Carousel';
 import styles from './List.module.scss';
