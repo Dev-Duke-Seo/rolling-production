@@ -1,10 +1,9 @@
 'use client';
 
-import { useCallback, useEffect, useRef } from 'react';
-
 import classNames from 'classnames/bind';
 
 import MessageCardListWithModal from '@/app/post/_components/MessageCardListWithModal';
+import { useInfiniteScroll } from '@/src/shared/hooks/useInfiniteScroll';
 import { MessagePreview, UrlString } from '@apis/types/Recipient';
 import { useInfiniteMessages } from '@queries/useMessageQueries';
 import { useRecipientById } from '@queries/useRecipientQueries';
@@ -20,50 +19,14 @@ const cx = classNames.bind(styles);
 export default function PostByIdPage({ params, isEditMode = false }: { params: { id: string }; isEditMode: boolean }) {
   // query
   const { data: recipient } = useRecipientById(Number(params.id));
-  const observerRef = useRef<HTMLDivElement>(null);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteMessages(Number(params.id));
 
+  const observerRef = useInfiniteScroll(fetchNextPage, hasNextPage, isFetchingNextPage, {
+    rootMargin: '0px 0px 300px 0px',
+  });
+
   const messages = data?.pages.flatMap((page) => page.results) || [];
-
-  // handlers
-  const handleObserver = useCallback(
-    (entries: IntersectionObserverEntry[]) => {
-      const [entry] = entries;
-
-      if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
-        fetchNextPage();
-      }
-    },
-    [fetchNextPage, hasNextPage, isFetchingNextPage],
-  );
-
-  // side effects
-  useEffect(() => {
-    // IntersectionObserver가 지원되지 않는 환경을 위한 폴백 처리
-    if (typeof IntersectionObserver === 'undefined') {
-      console.warn('IntersectionObserver is not supported in this environment');
-
-      return;
-    }
-
-    // eslint-disable-next-line compat/compat
-    const observer = new IntersectionObserver(handleObserver, {
-      rootMargin: '0px 0px 300px 0px',
-    });
-
-    const currentRef = observerRef.current; // 효과 내에서 ref 값을 저장
-
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, [handleObserver]);
 
   if (!recipient) {
     return <div>로딩 중...</div>;
