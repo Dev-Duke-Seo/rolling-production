@@ -1,18 +1,12 @@
 'use client';
 
-import { useState } from 'react';
-
 import classNames from 'classnames/bind';
-import { useParams } from 'next/navigation';
 
 import { Message } from '@apis/types/Message';
-import { useModalStore } from '@stores/useModalStore';
 
-import AddMessageCard from './AddMessageCard';
-import MessageCard from './MessageCard';
 import styles from './MessageCardListWithModal.module.scss';
-import CardModal from '../../../components/Modals/CardModal';
-import Modal from '../../../components/Modals/Modal';
+import MessageList from './MessageList/MessageList';
+import MessageModalContainer from './MessageModalContainer/MessageModalContainer';
 
 const cx = classNames.bind(styles);
 
@@ -21,42 +15,20 @@ interface MessageCardListWithModalProps {
   isEditMode: boolean;
 }
 
+/**
+ * 메시지 카드 목록과 모달 컴포넌트
+ * MessageList와 MessageModalContainer를 조합해 메시지 목록 UI와 모달 기능을 제공
+ */
 export default function MessageCardListWithModal({ messages, isEditMode }: MessageCardListWithModalProps) {
-  const { isModalOpen, openModal, closeModal } = useModalStore();
-  const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
-  const params = useParams();
-
-  const handleClickMessageCard = (message: Message) => {
-    setSelectedMessage(message);
-    openModal();
-  };
-
   return (
     <div className={cx('message-card-list-with-modal')}>
-      <AddMessageCard id={params.id as string} />
-      {messages.map((message) => (
-        <MessageCard
-          key={message.id}
-          message={message}
-          onClick={() => handleClickMessageCard(message)}
+      <MessageModalContainer isEditMode={isEditMode}>
+        <MessageList
+          messages={messages}
           isEditMode={isEditMode}
+          onMessageClick={() => {}} // MessageModalContainer에서 덮어씌움
         />
-      ))}
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => {
-          closeModal();
-          setSelectedMessage(null);
-        }}
-      >
-        <CardModal
-          message={selectedMessage!}
-          handleClickClose={() => {
-            closeModal();
-            setSelectedMessage(null);
-          }}
-        />
-      </Modal>
+      </MessageModalContainer>
     </div>
   );
 }

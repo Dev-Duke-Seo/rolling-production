@@ -8,6 +8,15 @@
       "@hooks/*": [
         "./hooks/*"
       ],
+      "@hooks/common/*": [
+        "./hooks/common/*"
+      ],
+      "@hooks/ui/*": [
+        "./hooks/ui/*"
+      ],
+      "@hooks/pages/*": [
+        "./hooks/pages/*"
+      ],
       "@apis/*": [
         "./apis/*"
       ],

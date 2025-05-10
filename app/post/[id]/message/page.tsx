@@ -1,20 +1,9 @@
 'use client';
 
-import { useCallback, useState } from 'react';
-import { useForm } from 'react-hook-form';
-
 import classNames from 'classnames/bind';
-import { Descendant } from 'edit-on-slate';
 import dynamic from 'next/dynamic';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 
-import { getRecipientsById } from '@apis/recipients/getRecipientsById';
-import { Font, PostMessageRequest } from '@apis/types/Message';
-import { UrlString } from '@apis/types/Recipient';
-import { useMutationMessage } from '@queries/useMessageQueries';
-import { useProfileImages } from '@queries/usePublicApiQueries';
-
-import { Relationship } from '@components/Badge';
 import Button from '@components/Buttons/Button';
 import Dropdown from '@components/Dropdown';
 import Input from '@components/Input';
@@ -23,15 +12,11 @@ import ProfileImageItem from '@components/ServiceHeader/ProfileImageItem';
 import ProfileImageList from '@components/ServiceHeader/ProfileImageList';
 import Explanation from '@components/Tab/Explanation';
 
+import { useMessageForm } from '@hooks/pages';
+
 import styles from './PostPage_id.module.scss';
 
 const cx = classNames.bind(styles);
-
-const DEFAULT_RELATIONSHIP_OPTIONS: Relationship[] = ['지인', '친구', '가족', '동료'];
-const DEFAULT_FONT_OPTIONS: Font[] = ['Noto Sans', 'Pretendard'];
-
-const DEFAULT_PROFILE_IMAGE_URL =
-  'https://learn-codeit-kr-static.s3.ap-northeast-2.amazonaws.com/sprint-proj-image/default_avatar.png';
 
 // dynamic Import editor
 const Editor = dynamic(() => import('edit-on-slate').then((mod) => mod.Editor), {
@@ -39,87 +24,44 @@ const Editor = dynamic(() => import('edit-on-slate').then((mod) => mod.Editor), 
   loading: () => <div>로딩 중...</div>,
 });
 
+/**
+ * 메시지 작성 페이지
+ * 선택한 롤링페이퍼에 메시지를 추가하는 기능을 제공합니다.
+ */
 export default function MessagePage() {
-  // Hooks
-  const router = useRouter();
   const { id } = useParams();
+  const recipientId = Number(id);
+
+  const {
+    // 폼 상태
+    register,
+    formState,
+    handleSubmit,
+
+    // 선택 상태
+    selectedRelationship,
+    setSelectedRelationship,
+
+    // 에디터 상태
+    content,
+    handleEditorChange,
+
+    // 프로필 이미지 관련
+    profileImages,
+    selectedProfileImage,
+    handleProfileImageSelect,
+    DEFAULT_PROFILE_IMAGE_URL,
+
+    // 상수 데이터
+    relationshipOptions,
+
+    // 이벤트 핸들러
+    onSubmit,
+  } = useMessageForm(recipientId);
+
   // HOC Components
   const InputWithLabel = withLabel(Input);
   const DropdownRelationshipWithLabel = withLabel(Dropdown);
-  const { mutateAsync } = useMutationMessage(Number(id));
-
-  // Forms
-  const { handleSubmit, register, getValues, formState } = useForm({ mode: 'onSubmit' });
-
-  const [content, setContent] = useState<Descendant[]>([
-    {
-      type: 'paragraph',
-      children: [{ text: '' }],
-    },
-  ]);
-
-  // States
-  const [selectedRelationship, setSelectedRelationship] = useState<Relationship | null>(null);
-  const [selectedProfileImage, setSelectedProfileImage] = useState<UrlString | null>(null);
-  const { data: profileImages } = useProfileImages();
-
-  // Handlers
-  const validateState = ({ relationship }: { relationship: Relationship | null }) => {
-    if (!relationship) {
-      return false;
-    }
-
-    return true;
-  };
-
-  const handleEditorChange = useCallback((newValue: Descendant[]) => {
-    if (newValue && Array.isArray(newValue)) {
-      setContent(newValue);
-    }
-  }, []);
-
-  // Event Handlers
-  const onClickButton = async () => {
-    const { from } = getValues();
-
-    if (!validateState({ relationship: selectedRelationship })) {
-      // eslint-disable-next-line no-alert
-      alert('모든 필드를 입력해 주세요');
-
-      return;
-    }
-
-    const recipient = await getRecipientsById(Number(id));
-
-    if (!recipient) {
-      // eslint-disable-next-line no-alert
-      alert('존재하지 않는 상대입니다.');
-
-      return;
-    }
-
-    const { id: recipientId, backgroundColor } = recipient;
-
-    const messageData: PostMessageRequest = {
-      recipientId,
-      sender: from,
-      relationship: selectedRelationship!,
-      font: DEFAULT_FONT_OPTIONS[0],
-      content: JSON.stringify(content),
-      profileImageURL: selectedProfileImage ?? null,
-      backgroundColor,
-    };
-
-    try {
-      const response = await mutateAsync(messageData);
-      // eslint-disable-next-line no-alert
-      alert('메시지 생성이 완료되었습니다.');
-      router.push(`/post/${response.recipientId}`);
-    } catch (error) {
-      // 에러 처리
-      console.error('메시지 전송 실패:', error);
-    }
-  };
 
   return (
     <div className={cx('post-page')}>
@@ -151,9 +93,7 @@ export default function MessagePage() {
             <ProfileImageList
               imageUrls={profileImages ?? []}
               selectionType={'selection'}
-              onClick={(imageUrl) => {
-                setSelectedProfileImage(imageUrl as UrlString);
-              }}
+              onClick={handleProfileImageSelect}
             />
           </div>
         </div>
@@ -163,7 +103,7 @@ export default function MessagePage() {
         <DropdownRelationshipWithLabel
           label='상대와의 관계'
           placeholder='관계를 선택해 주세요'
-          list={DEFAULT_RELATIONSHIP_OPTIONS}
+          list={relationshipOptions}
           selectedItem={selectedRelationship}
           onSelect={setSelectedRelationship}
         />
@@ -184,7 +124,7 @@ export default function MessagePage() {
       </div>
 
       <div className={cx('width-box')}>
-        <Button type='primary' size={'full'} handleClickButton={handleSubmit(onClickButton)}>
+        <Button type='primary' size={'full'} handleClickButton={handleSubmit(onSubmit)}>
           생성하기
         </Button>
       </div>

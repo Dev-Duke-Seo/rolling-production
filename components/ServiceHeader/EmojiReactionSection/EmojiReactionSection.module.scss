@@ -1,0 +1,74 @@
+@import 'styles/global-styles/index';
+
+.emoji-reaction-section {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+
+  .emoji-service {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    
+    .arrow-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0 0.8rem;
+      
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+    
+    .no-emoji {
+      @include font-16-regular;
+      color: $gray-500;
+    }
+    
+    :global(.emoji-item) {
+      width: fit-content;
+      padding: 0.8rem 1.2rem;
+      border-radius: 3.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.2rem;
+      background: rgba(0, 0, 0, 0.54);
+      
+      &:hover {
+        background: $gray-600;
+        cursor: pointer;
+      }
+      
+      :global(.emoji) {
+        font-size: 1.6rem;
+        line-height: 2.1rem;
+      }
+      
+      :global(.count) {
+        color: $white;
+        font-size: 1.6rem;
+        line-height: 2.6rem;
+      }
+    }
+    
+    :global(.selected) {
+      background: $gray-600;
+    }
+  }
+  
+  .buttons {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    
+    .add-emoji-text {
+      margin-left: 4px;
+      
+      @include mobile {
+        display: none;
+      }
+    }
+  }
+} 

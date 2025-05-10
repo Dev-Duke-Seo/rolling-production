@@ -1,76 +1,46 @@
 'use client';
 
-import { useCallback, useEffect, useRef } from 'react';
-
 import classNames from 'classnames/bind';
 
 import MessageCardListWithModal from '@/app/post/_components/MessageCardListWithModal';
-import { MessagePreview, UrlString } from '@apis/types/Recipient';
-import { useInfiniteMessages } from '@queries/useMessageQueries';
-import { useRecipientById } from '@queries/useRecipientQueries';
 
 import DeleteRecipientButton from '@components/Buttons/DeleteButton';
 import ServiceHeader from '@components/ServiceHeader/ServiceHeader';
 import Explanation from '@components/Tab/Explanation';
+
+import { useInfiniteScroll, useRecipientDetailPage } from '@hooks/index';
 
 import styles from './PostByIdPage.module.scss';
 
 const cx = classNames.bind(styles);
 
 export default function PostByIdPage({ params, isEditMode = false }: { params: { id: string }; isEditMode: boolean }) {
-  // query
-  const { data: recipient } = useRecipientById(Number(params.id));
-  const observerRef = useRef<HTMLDivElement>(null);
+  const recipientId = Number(params.id);
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteMessages(Number(params.id));
+  const {
+    // 롤링페이퍼 데이터
+    recipient,
+    isRecipientLoading,
 
-  const messages = data?.pages.flatMap((page) => page.results) || [];
+    // 메시지 목록 데이터
+    messages,
+    profileImages,
 
-  // handlers
-  const handleObserver = useCallback(
-    (entries: IntersectionObserverEntry[]) => {
-      const [entry] = entries;
+    // 무한 스크롤 관련 데이터
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useRecipientDetailPage(recipientId);
 
-      if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
-        fetchNextPage();
-      }
-    },
-    [fetchNextPage, hasNextPage, isFetchingNextPage],
-  );
+  const observerRef = useInfiniteScroll(fetchNextPage, hasNextPage, isFetchingNextPage, {
+    rootMargin: '0px 0px 300px 0px',
+  });
 
-  // side effects
-  useEffect(() => {
-    // IntersectionObserver가 지원되지 않는 환경을 위한 폴백 처리
-    if (typeof IntersectionObserver === 'undefined') {
-      console.warn('IntersectionObserver is not supported in this environment');
-
-      return;
-    }
-
-    // eslint-disable-next-line compat/compat
-    const observer = new IntersectionObserver(handleObserver, {
-      rootMargin: '0px 0px 300px 0px',
-    });
-
-    const currentRef = observerRef.current; // 효과 내에서 ref 값을 저장
-
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, [handleObserver]);
-
-  if (!recipient) {
+  if (isRecipientLoading || !recipient) {
     return <div>로딩 중...</div>;
   }
 
-  const { backgroundColor, backgroundImageURL, messageCount, recentMessages } = recipient;
-  const profileImages = (recentMessages as MessagePreview[]).map((message: MessagePreview) => message.profileImageURL);
+  const { backgroundColor, backgroundImageURL } = recipient;
 
   return (
     <div
@@ -79,15 +49,11 @@ export default function PostByIdPage({ params, isEditMode = false }: { params: {
       })}
       style={backgroundImageURL ? { backgroundImage: `url(${backgroundImageURL})` } : {}}
     >
-      <ServiceHeader
-        title={recipient.name}
-        messageCount={messageCount}
-        profileImages={profileImages.filter((image): image is UrlString => image !== null)}
-      />
+      <ServiceHeader title={recipient.name} messageCount={recipient.messageCount} profileImages={profileImages} />
       <MessageCardListWithModal messages={messages} isEditMode={isEditMode} />
       {isEditMode && (
         <div className={cx('delete-button-container')}>
-          <DeleteRecipientButton recipientId={Number(params.id)} />
+          <DeleteRecipientButton recipientId={recipientId} />
         </div>
       )}
 

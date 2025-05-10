@@ -1,79 +1,54 @@
 'use client';
 
-import { useCallback } from 'react';
-import { useForm } from 'react-hook-form';
-
 import classNames from 'classnames/bind';
-import { useRouter } from 'next/navigation';
 
-import { Recipient, UrlString } from '@apis/types/Recipient';
-import { COLORCHIP_COLORS, ColorchipColors } from '@constants/COLORS';
-import { FORM_ERROR_MESSAGES } from '@constants/Errors';
-import { useBackgroundImages } from '@queries/usePublicApiQueries';
-import { usePostRecipient } from '@queries/useRecipientQueries';
+import { UrlString } from '@apis/types/Recipient';
 
 import Button from '@components/Buttons/Button';
 import ColorChipList from '@components/ColorChip/ColorChipList';
 import Input from '@components/Input';
 import { withLabel } from '@components/Label';
 import { ImageOption } from '@components/Option/ImageOption';
-import { useNullableIndex } from '@components/Option/useNullableIndex';
 import Explanation from '@components/Tab/Explanation';
 import Tab, { TabPanel } from '@components/Tab/Tab';
-import { useTab } from '@components/Tab/useTab';
+
+import { useNewRecipientForm } from '@hooks/pages';
 
 import styles from './PostPage.module.scss';
 
 const cx = classNames.bind(styles);
 
+/**
+ * 롤링페이퍼 생성 페이지
+ * 롤링페이퍼 이름 입력 및 배경 선택 UI를 제공합니다.
+ */
 export default function PostPage() {
-  const { mutateAsync: postRecipient } = usePostRecipient();
-  const { nullableIndex, handleIndexChange, resetIndex } = useNullableIndex();
-  const { selectedTab, handleTabChange } = useTab('컬러');
-
-  const { data: backgroundImages } = useBackgroundImages();
-
   const {
-    handleSubmit,
+    // 폼 상태
     register,
-    getValues,
-    formState: { errors },
-  } = useForm({ mode: 'onSubmit' });
+    errors,
+    handleSubmit,
+
+    // 탭 상태
+    selectedTab,
+    handleTabChange,
+
+    // 선택 상태
+    nullableIndex,
+    handleIndexChange,
+    resetIndex,
+
+    // 데이터
+    backgroundImages,
+    colorOptions,
+
+    // 이벤트 핸들러
+    onSubmit,
+  } = useNewRecipientForm();
 
   // HOC Component
   const InputWithLabel = withLabel(Input);
   const ExplanationWithLabel = withLabel(Explanation);
-
-  // Submit 버튼 관련
-  const router = useRouter();
-
-  const onSubmit = useCallback(async () => {
-    if (nullableIndex === null) {
-      console.log(FORM_ERROR_MESSAGES.REQUIRED_INDEX);
-
-      return;
-    }
-
-    const { to } = getValues();
-
-    const selectedImage = selectedTab === '컬러' ? COLORCHIP_COLORS[nullableIndex] : backgroundImages?.[nullableIndex];
-
-    const requestData: Pick<Recipient, 'name' | 'backgroundColor' | 'backgroundImageURL'> = {
-      name: to,
-      backgroundColor: selectedTab === '컬러' ? (selectedImage as ColorchipColors) : 'beige',
-      backgroundImageURL: selectedTab === '이미지' ? (selectedImage as UrlString) : null,
-    };
-
-    const data = await postRecipient(requestData);
-
-    if (!data) {
-      return;
-    }
-
-    const { id } = data;
-
-    router.push(`/post/${id}/message`);
-  }, [nullableIndex, selectedTab]);
 
   return (
     <div className={cx('post-page')}>
@@ -99,7 +74,7 @@ export default function PostPage() {
           <Tab selectedTab={selectedTab} handleTabChange={handleTabChange} callback={resetIndex}>
             <TabPanel label={'컬러'}>
               <ColorChipList
-                colorOptions={COLORCHIP_COLORS}
+                colorOptions={colorOptions}
                 handleClickItem={handleIndexChange}
                 chosenIndex={nullableIndex}
               />

@@ -1,0 +1,22 @@
+@import 'styles/global-styles/media-breakpoint.scss';
+
+.message-list {
+  margin-top: 0;
+  margin-bottom: 0;
+  width: 100%;
+  max-width: 128rem;
+  background-color: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.4rem;
+  justify-items: center;
+  align-items: center;
+
+  @include tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+} 

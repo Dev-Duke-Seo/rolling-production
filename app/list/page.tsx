@@ -2,16 +2,16 @@
 
 /* eslint-disable compat/compat */
 
-import { useEffect, useRef } from 'react';
-
 import classNames from 'classnames/bind';
 
 import Card from '@/app/list/_components/Card/Card';
 import { UrlString } from '@apis/types/Recipient';
 import { ColorchipColors } from '@constants/COLORS';
-import { useRecipientsListInfinite } from '@queries/useRecipientQueries';
 
 import { withLabel } from '@components/Label';
+
+import { useInfiniteScroll } from '@hooks/common/useInfiniteScroll';
+import { useRecipientsListPage } from '@hooks/pages/useRecipientsListPage';
 
 import Carousel from './_components/Carousel';
 import styles from './List.module.scss';
@@ -22,93 +22,26 @@ const CarouselWithLabel = withLabel(Carousel);
 
 export default function List() {
   const {
-    data: popularData,
-    fetchNextPage: fetchNextPopular,
-    hasNextPage: hasNextPopular,
-    isFetchingNextPage: isFetchingNextPopular,
-  } = useRecipientsListInfinite({ limit: 8, sort: 'popular' });
+    // 인기 롤링페이퍼 관련 데이터
+    popularRecipients,
+    fetchNextPopular,
+    hasNextPopular,
+    isFetchingNextPopular,
+    handleReachEndPopular,
 
-  const {
-    data: recentData,
-    fetchNextPage: fetchNextRecent,
-    hasNextPage: hasNextRecent,
-    isFetchingNextPage: isFetchingNextRecent,
-  } = useRecipientsListInfinite({ limit: 8, sort: 'recent' });
+    // 최근 롤링페이퍼 관련 데이터
+    recentRecipients,
+    fetchNextRecent,
+    hasNextRecent,
+    isFetchingNextRecent,
+    handleReachEndRecent,
+  } = useRecipientsListPage();
 
-  const popularObserverRef = useRef<IntersectionObserver | null>(null);
-  const recentObserverRef = useRef<IntersectionObserver | null>(null);
-  const loadMorePopularRef = useRef<HTMLDivElement>(null);
-  const loadMoreRecentRef = useRef<HTMLDivElement>(null);
+  const loadMorePopularRef = useInfiniteScroll(fetchNextPopular, hasNextPopular, isFetchingNextPopular, {
+    threshold: 1,
+  });
 
-  // 인기 캐러셀이 끝에 도달했을 때 호출되는 핸들러
-  const handleReachEndPopular = () => {
-    if (hasNextPopular && !isFetchingNextPopular) {
-      fetchNextPopular();
-    }
-  };
-
-  // 최근 캐러셀이 끝에 도달했을 때 호출되는 핸들러
-  const handleReachEndRecent = () => {
-    if (hasNextRecent && !isFetchingNextRecent) {
-      fetchNextRecent();
-    }
-  };
-
-  useEffect(() => {
-    if (popularObserverRef.current) {
-      popularObserverRef.current.disconnect();
-    }
-
-    popularObserverRef.current = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasNextPopular && !isFetchingNextPopular) {
-          fetchNextPopular();
-        }
-      },
-      { threshold: 1 },
-    );
-
-    if (loadMorePopularRef.current) {
-      popularObserverRef.current.observe(loadMorePopularRef.current);
-    }
-
-    return () => {
-      if (popularObserverRef.current) {
-        popularObserverRef.current.disconnect();
-      }
-    };
-  }, [fetchNextPopular, hasNextPopular, isFetchingNextPopular]);
-
-  useEffect(() => {
-    if (recentObserverRef.current) {
-      recentObserverRef.current.disconnect();
-    }
-
-    recentObserverRef.current = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasNextRecent && !isFetchingNextRecent) {
-          fetchNextRecent();
-        }
-      },
-      { threshold: 1 },
-    );
-
-    if (loadMoreRecentRef.current) {
-      recentObserverRef.current.observe(loadMoreRecentRef.current);
-    }
-
-    return () => {
-      if (recentObserverRef.current) {
-        recentObserverRef.current.disconnect();
-      }
-    };
-  }, [fetchNextRecent, hasNextRecent, isFetchingNextRecent]);
-
-  // 인기 롤링페이퍼(popular) 데이터
-  const popularRecipients = popularData?.pages.flatMap((page) => page.results) || [];
-
-  // 최근 롤링페이퍼(recent) 데이터
-  const recentRecipients = recentData?.pages.flatMap((page) => page.results) || [];
+  const loadMoreRecentRef = useInfiniteScroll(fetchNextRecent, hasNextRecent, isFetchingNextRecent, { threshold: 1 });
 
   const PopularCards = popularRecipients.map((recipient) => (
     <Card

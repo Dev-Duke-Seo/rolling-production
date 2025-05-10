@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import Dropdown from '@components/Dropdown';
 
-import useSelect from '@hooks/useSelect';
+import useSelect from '@hooks/ui/useSelect';
 
 const meta = {
   title: 'Components/Dropdown',
