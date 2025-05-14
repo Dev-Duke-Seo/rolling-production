@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-
 import classNames from 'classnames/bind';
 
 import { EmojiIcon } from '@apis/types/Reaction';
@@ -34,12 +32,6 @@ const formatCountToK = (count: number): string => {
  */
 export default function EmojiItem({ emoji, count, recipientId }: EmojiItemProps) {
   const { isEmojiSelected, toggleEmojiReaction } = useEmojiReaction(recipientId);
-  const [isSelected, setIsSelected] = useState(false);
-
-  // 클라이언트 측에서만 실행되는 useEffect
-  useEffect(() => {
-    setIsSelected(isEmojiSelected(emoji));
-  }, [emoji, isEmojiSelected]);
 
   const handleClick = () => {
     toggleEmojiReaction(emoji);
@@ -50,7 +42,7 @@ export default function EmojiItem({ emoji, count, recipientId }: EmojiItemProps)
   }
 
   return (
-    <button type='button' className={cx('emoji-item', { selected: isSelected })} onClick={handleClick}>
+    <button type='button' className={cx('emoji-item', { selected: isEmojiSelected(emoji) })} onClick={handleClick}>
       <p className={cx('emoji')}>{emoji}</p>
       <p className={cx('count')}>{formatCountToK(count)}</p>
     </button>
