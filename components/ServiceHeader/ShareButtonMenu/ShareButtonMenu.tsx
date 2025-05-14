@@ -65,8 +65,6 @@ const SharePopover = ({ title, recipientId, isOpen, popoverRef, setIsOpen }: Sha
 
   const shareToKakao = () => {
     if (window.Kakao && window.Kakao.isInitialized()) {
-      console.log('window.Kakao', window.Kakao);
-      console.log('KAKAO_TEMPLATE_ID', KAKAO_TEMPLATE_ID);
       window.Kakao.Share.sendCustom({
         templateId: Number(KAKAO_TEMPLATE_ID),
         templateArgs: {
