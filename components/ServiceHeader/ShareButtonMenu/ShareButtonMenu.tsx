@@ -15,7 +15,7 @@ import styles from './ShareButtonMenu.module.scss';
 
 const cx = classNames.bind(styles);
 
-const KAKAO_SDK = 'https://developers.kakao.com/sdk/js/kakao.js';
+const KAKAO_SDK = 'https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.js';
 const KAKAO_TEMPLATE_ID = process.env.NEXT_PUBLIC_KAKAO_TEMPLATE_ID;
 
 // 카카오 SDK 로더 컴포넌트
@@ -65,8 +65,10 @@ const SharePopover = ({ title, recipientId, isOpen, popoverRef, setIsOpen }: Sha
 
   const shareToKakao = () => {
     if (window.Kakao && window.Kakao.isInitialized()) {
+      console.log('window.Kakao', window.Kakao);
+      console.log('KAKAO_TEMPLATE_ID', KAKAO_TEMPLATE_ID);
       window.Kakao.Share.sendCustom({
-        templateId: KAKAO_TEMPLATE_ID,
+        templateId: Number(KAKAO_TEMPLATE_ID),
         templateArgs: {
           RECIPIENT: title,
           RECIPIENT_ID: recipientId,
