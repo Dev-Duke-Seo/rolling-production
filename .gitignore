@@ -83,6 +83,4 @@ save_git_log.sh
 .cursor/rules/readme-for-resume.mdc
 .cursor/rules/rolling-convention.mdc
 .cursor/rules/toss-frontend-rule.mdc
-.devdocs/refactor-component.md
-.devdocs/refactor-page.md
-.devdocs/refactor-roadmap.md
+.devdocs
