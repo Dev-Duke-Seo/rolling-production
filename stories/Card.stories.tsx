@@ -16,8 +16,6 @@ type Story = StoryObj<typeof meta>;
 
 export const ChooseColor: Story = {
   args: {
-    backgroundPosition: 'center',
-    backgroundSize: 'cover',
     backgroundImageURL: null,
     backgroundColor: 'purple',
     name: '홍길동',

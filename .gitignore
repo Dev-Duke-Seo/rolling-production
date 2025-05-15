@@ -84,3 +84,4 @@ save_git_log.sh
 .cursor/rules/rolling-convention.mdc
 .cursor/rules/toss-frontend-rule.mdc
 .devdocs
+.lighthouseci
