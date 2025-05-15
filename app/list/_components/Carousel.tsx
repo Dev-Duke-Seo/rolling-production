@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef, PropsWithChildren } from 'react';
+import { ForwardedRef, forwardRef, PropsWithChildren } from 'react';
 
 import classNames from 'classnames/bind';
 
@@ -24,6 +24,7 @@ interface CarouselProps {
  * 캐러셀 컴포넌트
  * 가로 스크롤 슬라이드 기능을 제공하며, 자동 슬라이드와 무한 스크롤 기능을 포함합니다.
  */
+<<<<<<< Updated upstream
 const Carousel = forwardRef(
   (
     {
@@ -38,6 +39,21 @@ const Carousel = forwardRef(
   ) => {
     const childrenArray = children as React.ReactNode[];
     const totalItems = childrenArray.length;
+=======
+function Carousel(
+  {
+    children,
+    numberOfContentsToDisplay = 2,
+    itemWidth = 275,
+    itemGap = 20,
+    onReachEnd,
+    autoSlide = true,
+  }: PropsWithChildren<CarouselProps>,
+  ref: ForwardedRef<HTMLDivElement>,
+) {
+  const childrenArray = children as React.ReactNode[];
+  const totalItems = childrenArray.length;
+>>>>>>> Stashed changes
 
     const { carouselStyles, handleClickLeft, handleClickRight, isAtStart, isAtEnd } = useCarousel({
       totalItems,
@@ -71,6 +87,10 @@ const Carousel = forwardRef(
   },
 );
 
+<<<<<<< Updated upstream
 Carousel.displayName = 'Carousel';
 
 export default Carousel;
+=======
+export default forwardRef<HTMLDivElement, PropsWithChildren<CarouselProps>>(Carousel);
+>>>>>>> Stashed changes
