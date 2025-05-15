@@ -18,6 +18,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='ko'>
+      <head>
+        {/* 외부 이미지 도메인 프리커넥트 최적화 */}
+        <link rel='preconnect' href='https://picsum.photos' crossOrigin='anonymous' />
+        <link rel='dns-prefetch' href='https://picsum.photos' />
+      </head>
       <body id='root'>
         <QueryProvider>
           <GNB />
