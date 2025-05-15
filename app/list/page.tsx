@@ -2,6 +2,8 @@
 
 /* eslint-disable compat/compat */
 
+import { useEffect } from 'react';
+
 import classNames from 'classnames/bind';
 
 import Card from '@/app/list/_components/Card/Card';
@@ -19,6 +21,15 @@ import styles from './List.module.scss';
 const cx = classNames.bind(styles);
 
 const CarouselWithLabel = withLabel(Carousel);
+
+// 미리 이미지 로드 함수
+const preloadImage = (url: string | null) => {
+  if (!url || typeof window === 'undefined') return;
+
+  const optimizedUrl = url.replace(/picsum\.photos\/id\/(\d+)\/\d+\/\d+/, 'picsum.photos/id/$1/300/300');
+  const img = new Image();
+  img.src = optimizedUrl;
+};
 
 export default function List() {
   const {
@@ -43,7 +54,24 @@ export default function List() {
 
   const loadMoreRecentRef = useInfiniteScroll(fetchNextRecent, hasNextRecent, isFetchingNextRecent, { threshold: 1 });
 
-  const PopularCards = popularRecipients.map((recipient) => (
+  // 초기 데이터 로딩 후 첫 4개 이미지 미리 로드
+  useEffect(() => {
+    if (popularRecipients.length > 0) {
+      // 인기 롤링페이퍼 첫 4개 프리로드
+      popularRecipients.slice(0, 4).forEach((recipient) => {
+        preloadImage(recipient.backgroundImageURL);
+      });
+
+      // 최근 롤링페이퍼 첫 2개 프리로드
+      if (recentRecipients.length > 0) {
+        recentRecipients.slice(0, 2).forEach((recipient) => {
+          preloadImage(recipient.backgroundImageURL);
+        });
+      }
+    }
+  }, [popularRecipients, recentRecipients]);
+
+  const PopularCards = popularRecipients.map((recipient, index) => (
     <Card
       key={recipient.id}
       backgroundColor={recipient.backgroundColor as ColorchipColors}
@@ -54,10 +82,11 @@ export default function List() {
       recentMessages={recipient.recentMessages}
       reactionCount={recipient.reactionCount}
       topReactions={recipient.topReactions}
+      index={index} // 인덱스 추가
     />
   ));
 
-  const RecentCards = recentRecipients.map((recipient) => (
+  const RecentCards = recentRecipients.map((recipient, index) => (
     <Card
       key={recipient.id}
       backgroundColor={recipient.backgroundColor as ColorchipColors}
@@ -68,6 +97,7 @@ export default function List() {
       recentMessages={recipient.recentMessages}
       reactionCount={recipient.reactionCount}
       topReactions={recipient.topReactions}
+      index={index + 20} // 인덱스 추가 (인기 이후에 표시되므로 인덱스 오프셋 추가)
     />
   ));
 
