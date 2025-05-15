@@ -18,22 +18,23 @@ interface CarouselProps {
   itemWidth?: number;
   itemGap?: number;
   autoSlide?: boolean;
-  ref?: React.RefObject<HTMLDivElement>;
 }
 
 /**
  * 캐러셀 컴포넌트
  * 가로 스크롤 슬라이드 기능을 제공하며, 자동 슬라이드와 무한 스크롤 기능을 포함합니다.
  */
-function Carousel({
-  children,
-  numberOfContentsToDisplay = 2,
-  itemWidth = 275,
-  itemGap = 20,
-  onReachEnd,
-  autoSlide = true,
-  ref,
-}: PropsWithChildren<CarouselProps>) {
+function Carousel(
+  {
+    children,
+    numberOfContentsToDisplay = 2,
+    itemWidth = 275,
+    itemGap = 20,
+    onReachEnd,
+    autoSlide = true,
+  }: PropsWithChildren<CarouselProps>,
+  ref: React.RefObject<HTMLDivElement>,
+) {
   const childrenArray = children as React.ReactNode[];
   const totalItems = childrenArray.length;
 
